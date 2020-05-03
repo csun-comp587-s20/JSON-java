@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CookieList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON-java</a> &gt; <a href="index.source.html" class="el_package">com.test.JSON_java</a> &gt; <span class="el_source">CookieList.java</span></div><h1>CookieList.java</h1><pre class="source lang-java linenums">package com.test.JSON_java;
+
+/*
+Copyright (c) 2002 JSON.org
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+The Software shall be used for Good, not Evil.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
+/**
+ * Convert a web browser cookie list string to a JSONObject and back.
+ * @author JSON.org
+ * @version 2015-12-09
+ */
+<span class="nc" id="L32">public class CookieList {</span>
+
+    /**
+     * Convert a cookie list into a JSONObject. A cookie list is a sequence
+     * of name/value pairs. The names are separated from the values by '='.
+     * The pairs are separated by ';'. The names and the values
+     * will be unescaped, possibly converting '+' and '%' sequences.
+     *
+     * To add a cookie to a cookie list,
+     * cookielistJSONObject.put(cookieJSONObject.getString(&quot;name&quot;),
+     *     cookieJSONObject.getString(&quot;value&quot;));
+     * @param string  A cookie list string
+     * @return A JSONObject
+     * @throws JSONException
+     */
+    public static JSONObject toJSONObject(String string) throws JSONException {
+<span class="nc" id="L48">        JSONObject jo = new JSONObject();</span>
+<span class="nc" id="L49">        JSONTokener x = new JSONTokener(string);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        while (x.more()) {</span>
+<span class="nc" id="L51">            String name = Cookie.unescape(x.nextTo('='));</span>
+<span class="nc" id="L52">            x.next('=');</span>
+<span class="nc" id="L53">            jo.put(name, Cookie.unescape(x.nextTo(';')));</span>
+<span class="nc" id="L54">            x.next();</span>
+<span class="nc" id="L55">        }</span>
+<span class="nc" id="L56">        return jo;</span>
+    }
+
+    /**
+     * Convert a JSONObject into a cookie list. A cookie list is a sequence
+     * of name/value pairs. The names are separated from the values by '='.
+     * The pairs are separated by ';'. The characters '%', '+', '=', and ';'
+     * in the names and values are replaced by &quot;%hh&quot;.
+     * @param jo A JSONObject
+     * @return A cookie list string
+     * @throws JSONException
+     */
+    public static String toString(JSONObject jo) throws JSONException {
+<span class="nc" id="L69">        boolean             b = false;</span>
+<span class="nc" id="L70">        final StringBuilder sb = new StringBuilder();</span>
+        // Don't use the new entrySet API to maintain Android support
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (final String key : jo.keySet()) {</span>
+<span class="nc" id="L73">            final Object value = jo.opt(key);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            if (!JSONObject.NULL.equals(value)) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                if (b) {</span>
+<span class="nc" id="L76">                    sb.append(';');</span>
+                }
+<span class="nc" id="L78">                sb.append(Cookie.escape(key));</span>
+<span class="nc" id="L79">                sb.append(&quot;=&quot;);</span>
+<span class="nc" id="L80">                sb.append(Cookie.escape(value.toString()));</span>
+<span class="nc" id="L81">                b = true;</span>
+            }
+<span class="nc" id="L83">        }</span>
+<span class="nc" id="L84">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

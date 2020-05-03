@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+C:\Users\Chase\Dropbox\csun\2020 Spring\Software VandV\Project\JSON-java\src\.metadata\.plugins\org.eclipse.jdt.core

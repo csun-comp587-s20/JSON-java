@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Driver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON-java</a> &gt; <a href="index.source.html" class="el_package">com.test.JSON_java</a> &gt; <span class="el_source">Driver.java</span></div><h1>Driver.java</h1><pre class="source lang-java linenums">package com.test.JSON_java;
+
+import java.util.ArrayList;
+
+<span class="nc" id="L5">public class Driver {</span>
+
+	public static void main(String[] args) {
+		
+<span class="nc" id="L9">		String cats = &quot;\&quot;cats\&quot;&quot;;</span>
+<span class="nc" id="L10">		String dogs = &quot;dogs&quot;;</span>
+		
+<span class="nc" id="L12">		ArrayList&lt;String&gt; strings = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L13">		strings.add(&quot;a&quot;);</span>
+<span class="nc" id="L14">		strings.add(&quot;a&quot;);</span>
+<span class="nc" id="L15">		strings.add(&quot;a&quot;);</span>
+<span class="nc" id="L16">		System.out.println(String.join(&quot; &quot;, strings));</span>
+		
+<span class="nc" id="L18">		System.out.println(String.join(&quot; &quot;, cats, dogs));</span>
+		
+		
+<span class="nc" id="L21">		JSONArray jArr = new JSONArray();</span>
+<span class="nc" id="L22">		jArr.put(&quot;cats&quot;);</span>
+<span class="nc" id="L23">		jArr.put(&quot;dogs&quot;);</span>
+<span class="nc" id="L24">		String joined = jArr.join(&quot; &quot;);</span>
+<span class="nc" id="L25">		System.out.println(joined);</span>
+<span class="nc" id="L26">		jArr.put(2,&quot;turtles&quot;);</span>
+<span class="nc" id="L27">		System.out.println(jArr.join(&quot; &quot;));</span>
+		
+		
+		/*
+		JSONObject jo = new JSONObject();
+		jo.put(&quot;name&quot;, &quot;jon doe&quot;);
+		jo.put(&quot;name2&quot;, 22);
+
+		String s1 = &quot;[I am the machine]&quot;;
+		JSONTokener jt = new JSONTokener(s1);
+		JSONArray jArr = new JSONArray(&quot;[a string]&quot;);
+		System.out.println(jArr.length());
+		System.out.println(jArr.toString());
+		*/
+		
+		
+		/*
+		String s1 = &quot;[I am a test string]&quot;;
+		JSONArray jArray = new JSONArray(s1); 
+		System.out.println(jArray.getString(0));
+		*/
+		
+		/*
+		JSONObject jo = new JSONObject();
+		jo.put(&quot;name&quot;, &quot;jon doe&quot;);
+		jo.putOnce(&quot;name&quot;, &quot;joe&quot;);
+		jo.put(&quot;age&quot;, &quot;22&quot;);
+		jo.put(&quot;city&quot;, &quot;chicago&quot;);
+		
+		//It appears that these json objects have a to string which they have inherited
+		//weird cause I don't see tostring overriddgen in JSONObject.java
+		//maybe its using toString from hashmap?
+		System.out.println(jo);
+		
+		//look into JSONObject static function quote
+		System.out.println(JSONObject.quote(&quot;cat doggy dog dog&quot;));
+*/
+
+<span class="nc" id="L65">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

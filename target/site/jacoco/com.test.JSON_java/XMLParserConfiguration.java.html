@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLParserConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON-java</a> &gt; <a href="index.source.html" class="el_package">com.test.JSON_java</a> &gt; <span class="el_source">XMLParserConfiguration.java</span></div><h1>XMLParserConfiguration.java</h1><pre class="source lang-java linenums">package com.test.JSON_java;
+/*
+Copyright (c) 2002 JSON.org
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+The Software shall be used for Good, not Evil.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/**
+ * Configuration object for the XML parser.
+ * @author AylwardJ
+ *
+ */
+public class XMLParserConfiguration {
+    /** Original Configuration of the XML Parser. */
+<span class="nc" id="L33">    public static final XMLParserConfiguration ORIGINAL = new XMLParserConfiguration();</span>
+    /** Original configuration of the XML Parser except that values are kept as strings. */
+<span class="nc" id="L35">    public static final XMLParserConfiguration KEEP_STRINGS = new XMLParserConfiguration(true);</span>
+    /**
+     * When parsing the XML into JSON, specifies if values should be kept as strings (true), or if
+     * they should try to be guessed into JSON values (numeric, boolean, string)
+     */
+    public final boolean keepStrings;
+    /**
+     * The name of the key in a JSON Object that indicates a CDATA section. Historically this has
+     * been the value &quot;content&quot; but can be changed. Use &lt;code&gt;null&lt;/code&gt; to indicate no CDATA
+     * processing.
+     */
+    public final String cDataTagName;
+    /**
+     * When parsing the XML into JSON, specifies if values with attribute xsi:nil=&quot;true&quot;
+     * should be kept as attribute(false), or they should be converted to null(true)
+     */
+    public final boolean convertNilAttributeToNull;
+
+    /**
+     * Default parser configuration. Does not keep strings, and the CDATA Tag Name is &quot;content&quot;.
+     */
+    public XMLParserConfiguration () {
+<span class="nc" id="L57">        this(false, &quot;content&quot;, false);</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Configure the parser string processing and use the default CDATA Tag Name as &quot;content&quot;.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     */
+    public XMLParserConfiguration (final boolean keepStrings) {
+<span class="nc" id="L66">        this(keepStrings, &quot;content&quot;, false);</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * Configure the parser string processing to try and convert XML values to JSON values and
+     * use the passed CDATA Tag Name the processing value. Pass &lt;code&gt;null&lt;/code&gt; to
+     * disable CDATA processing
+     * @param cDataTagName&lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     */
+    public XMLParserConfiguration (final String cDataTagName) {
+<span class="nc" id="L77">        this(false, cDataTagName, false);</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * Configure the parser to use custom settings.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param cDataTagName&lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     */
+<span class="nc" id="L87">    public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName) {</span>
+<span class="nc" id="L88">        this.keepStrings = keepStrings;</span>
+<span class="nc" id="L89">        this.cDataTagName = cDataTagName;</span>
+<span class="nc" id="L90">        this.convertNilAttributeToNull = false;</span>
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * Configure the parser to use custom settings.
+     * @param keepStrings &lt;code&gt;true&lt;/code&gt; to parse all values as string.
+     *      &lt;code&gt;false&lt;/code&gt; to try and convert XML string values into a JSON value.
+     * @param cDataTagName &lt;code&gt;null&lt;/code&gt; to disable CDATA processing. Any other value
+     *      to use that value as the JSONObject key name to process as CDATA.
+     * @param convertNilAttributeToNull &lt;code&gt;true&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as null.
+     *                                  &lt;code&gt;false&lt;/code&gt; to parse values with attribute xsi:nil=&quot;true&quot; as {&quot;xsi:nil&quot;:true}.
+     */
+<span class="nc" id="L102">    public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName, final boolean convertNilAttributeToNull) {</span>
+<span class="nc" id="L103">        this.keepStrings = keepStrings;</span>
+<span class="nc" id="L104">        this.cDataTagName = cDataTagName;</span>
+<span class="nc" id="L105">        this.convertNilAttributeToNull = convertNilAttributeToNull;</span>
+<span class="nc" id="L106">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

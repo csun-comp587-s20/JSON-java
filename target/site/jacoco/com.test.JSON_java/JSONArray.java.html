@@ -1,0 +1,1522 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONArray.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JSON-java</a> &gt; <a href="index.source.html" class="el_package">com.test.JSON_java</a> &gt; <span class="el_source">JSONArray.java</span></div><h1>JSONArray.java</h1><pre class="source lang-java linenums">package com.test.JSON_java;
+
+/*
+ Copyright (c) 2002 JSON.org
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the &quot;Software&quot;), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ The Software shall be used for Good, not Evil.
+
+ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * A JSONArray is an ordered sequence of values. Its external text form is a
+ * string wrapped in square brackets with commas separating the values. The
+ * internal form is an object having &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;opt&lt;/code&gt;
+ * methods for accessing the values by index, and &lt;code&gt;put&lt;/code&gt; methods for
+ * adding or replacing values. The values can be any of these types:
+ * &lt;code&gt;Boolean&lt;/code&gt;, &lt;code&gt;JSONArray&lt;/code&gt;, &lt;code&gt;JSONObject&lt;/code&gt;,
+ * &lt;code&gt;Number&lt;/code&gt;, &lt;code&gt;String&lt;/code&gt;, or the
+ * &lt;code&gt;JSONObject.NULL object&lt;/code&gt;.
+ * &lt;p&gt;
+ * The constructor can convert a JSON text into a Java object. The
+ * &lt;code&gt;toString&lt;/code&gt; method converts to JSON text.
+ * &lt;p&gt;
+ * A &lt;code&gt;get&lt;/code&gt; method returns a value if one can be found, and throws an
+ * exception if one cannot be found. An &lt;code&gt;opt&lt;/code&gt; method returns a
+ * default value instead of throwing an exception, and so is useful for
+ * obtaining optional values.
+ * &lt;p&gt;
+ * The generic &lt;code&gt;get()&lt;/code&gt; and &lt;code&gt;opt()&lt;/code&gt; methods return an
+ * object which you can cast or query for type. There are also typed
+ * &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;opt&lt;/code&gt; methods that do type checking and type
+ * coercion for you.
+ * &lt;p&gt;
+ * The texts produced by the &lt;code&gt;toString&lt;/code&gt; methods strictly conform to
+ * JSON syntax rules. The constructors are more forgiving in the texts they will
+ * accept:
+ * &lt;ul&gt;
+ * &lt;li&gt;An extra &lt;code&gt;,&lt;/code&gt;&amp;nbsp;&lt;small&gt;(comma)&lt;/small&gt; may appear just
+ * before the closing bracket.&lt;/li&gt;
+ * &lt;li&gt;The &lt;code&gt;null&lt;/code&gt; value will be inserted when there is &lt;code&gt;,&lt;/code&gt;
+ * &amp;nbsp;&lt;small&gt;(comma)&lt;/small&gt; elision.&lt;/li&gt;
+ * &lt;li&gt;Strings may be quoted with &lt;code&gt;'&lt;/code&gt;&amp;nbsp;&lt;small&gt;(single
+ * quote)&lt;/small&gt;.&lt;/li&gt;
+ * &lt;li&gt;Strings do not need to be quoted at all if they do not begin with a quote
+ * or single quote, and if they do not contain leading or trailing spaces, and
+ * if they do not contain any of these characters:
+ * &lt;code&gt;{ } [ ] / \ : , #&lt;/code&gt; and if they do not look like numbers and
+ * if they are not the reserved words &lt;code&gt;true&lt;/code&gt;, &lt;code&gt;false&lt;/code&gt;, or
+ * &lt;code&gt;null&lt;/code&gt;.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author JSON.org
+ * @version 2016-08/15
+ */
+public class JSONArray implements Iterable&lt;Object&gt; {
+
+    /**
+     * The arrayList where the JSONArray's properties are kept.
+     */
+    private final ArrayList&lt;Object&gt; myArrayList;
+
+    /**
+     * Construct an empty JSONArray.
+     */
+<span class="fc" id="L94">    public JSONArray() {</span>
+<span class="fc" id="L95">        this.myArrayList = new ArrayList&lt;Object&gt;();</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * Construct a JSONArray from a JSONTokener.
+     *
+     * @param x
+     *            A JSONTokener
+     * @throws JSONException
+     *             If there is a syntax error.
+     */
+    public JSONArray(JSONTokener x) throws JSONException {
+<span class="fc" id="L107">        this();</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (x.nextClean() != '[') {</span>
+<span class="nc" id="L109">            throw x.syntaxError(&quot;A JSONArray text must start with '['&quot;);</span>
+        }
+        
+<span class="fc" id="L112">        char nextChar = x.nextClean();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (nextChar == 0) {</span>
+            // array is unclosed. No ']' found, instead EOF
+<span class="nc" id="L115">            throw x.syntaxError(&quot;Expected a ',' or ']'&quot;);</span>
+        }
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if (nextChar != ']') {</span>
+<span class="fc" id="L118">            x.back();</span>
+            for (;;) {
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">                if (x.nextClean() == ',') {</span>
+<span class="nc" id="L121">                    x.back();</span>
+<span class="nc" id="L122">                    this.myArrayList.add(JSONObject.NULL);</span>
+                } else {
+<span class="fc" id="L124">                    x.back();</span>
+<span class="fc" id="L125">                    this.myArrayList.add(x.nextValue());</span>
+                }
+<span class="pc bpc" id="L127" title="3 of 4 branches missed.">                switch (x.nextClean()) {</span>
+                case 0:
+                    // array is unclosed. No ']' found, instead EOF
+<span class="nc" id="L130">                    throw x.syntaxError(&quot;Expected a ',' or ']'&quot;);</span>
+                case ',':
+<span class="nc" id="L132">                    nextChar = x.nextClean();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                    if (nextChar == 0) {</span>
+                        // array is unclosed. No ']' found, instead EOF
+<span class="nc" id="L135">                        throw x.syntaxError(&quot;Expected a ',' or ']'&quot;);</span>
+                    }
+<span class="nc bnc" id="L137" title="All 2 branches missed.">                    if (nextChar == ']') {</span>
+<span class="nc" id="L138">                        return;</span>
+                    }
+<span class="nc" id="L140">                    x.back();</span>
+<span class="nc" id="L141">                    break;</span>
+                case ']':
+<span class="fc" id="L143">                    return;</span>
+                default:
+<span class="nc" id="L145">                    throw x.syntaxError(&quot;Expected a ',' or ']'&quot;);</span>
+                }
+            }
+        }
+<span class="nc" id="L149">    }</span>
+
+    /**
+     * Construct a JSONArray from a source JSON text.
+     *
+     * @param source
+     *            A string that begins with &lt;code&gt;[&lt;/code&gt;&amp;nbsp;&lt;small&gt;(left
+     *            bracket)&lt;/small&gt; and ends with &lt;code&gt;]&lt;/code&gt;
+     *            &amp;nbsp;&lt;small&gt;(right bracket)&lt;/small&gt;.
+     * @throws JSONException
+     *             If there is a syntax error.
+     */
+    public JSONArray(String source) throws JSONException {
+<span class="fc" id="L162">        this(new JSONTokener(source));</span>
+<span class="fc" id="L163">    }</span>
+
+    /**
+     * Construct a JSONArray from a Collection.
+     *
+     * @param collection
+     *            A Collection.
+     */
+<span class="nc" id="L171">    public JSONArray(Collection&lt;?&gt; collection) {</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (collection == null) {</span>
+<span class="nc" id="L173">            this.myArrayList = new ArrayList&lt;Object&gt;();</span>
+        } else {
+<span class="nc" id="L175">            this.myArrayList = new ArrayList&lt;Object&gt;(collection.size());</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        	for (Object o: collection){</span>
+<span class="nc" id="L177">        		this.myArrayList.add(JSONObject.wrap(o));</span>
+<span class="nc" id="L178">        	}</span>
+        }
+<span class="nc" id="L180">    }</span>
+
+    /**
+     * Construct a JSONArray from an array.
+     *
+     * @param array
+     *            Array. If the parameter passed is null, or not an array, an
+     *            exception will be thrown.
+     *
+     * @throws JSONException
+     *            If not an array or if an array value is non-finite number.
+     * @throws NullPointerException
+     *            Thrown if the array parameter is null.
+     */
+    public JSONArray(Object array) throws JSONException {
+<span class="nc" id="L195">        this();</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (array.getClass().isArray()) {</span>
+<span class="nc" id="L197">            int length = Array.getLength(array);</span>
+<span class="nc" id="L198">            this.myArrayList.ensureCapacity(length);</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            for (int i = 0; i &lt; length; i += 1) {</span>
+<span class="nc" id="L200">                this.put(JSONObject.wrap(Array.get(array, i)));</span>
+            }
+<span class="nc" id="L202">        } else {</span>
+<span class="nc" id="L203">            throw new JSONException(</span>
+                    &quot;JSONArray initial value should be a string or collection or array.&quot;);
+        }
+<span class="nc" id="L206">    }</span>
+
+    @Override
+    public Iterator&lt;Object&gt; iterator() {
+<span class="nc" id="L210">        return this.myArrayList.iterator();</span>
+    }
+
+    /**
+     * Get the object value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return An object value.
+     * @throws JSONException
+     *             If there is no value for the index.
+     */
+    public Object get(int index) throws JSONException {
+<span class="fc" id="L223">        Object object = this.opt(index);</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (object == null) {</span>
+<span class="nc" id="L225">            throw new JSONException(&quot;JSONArray[&quot; + index + &quot;] not found.&quot;);</span>
+        }
+<span class="fc" id="L227">        return object;</span>
+    }
+
+    /**
+     * Get the boolean value associated with an index. The string values &quot;true&quot;
+     * and &quot;false&quot; are converted to boolean.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The truth.
+     * @throws JSONException
+     *             If there is no value for the index or if the value is not
+     *             convertible to boolean.
+     */
+    public boolean getBoolean(int index) throws JSONException {
+<span class="fc" id="L242">        Object object = this.get(index);</span>
+<span class="fc bfc" id="L243" title="All 4 branches covered.">        if (object.equals(Boolean.FALSE)</span>
+                || (object instanceof String &amp;&amp; ((String) object)
+<span class="fc bfc" id="L245" title="All 2 branches covered.">                        .equalsIgnoreCase(&quot;false&quot;))) {</span>
+<span class="fc" id="L246">            return false;</span>
+<span class="fc bfc" id="L247" title="All 4 branches covered.">        } else if (object.equals(Boolean.TRUE)</span>
+                || (object instanceof String &amp;&amp; ((String) object)
+<span class="fc bfc" id="L249" title="All 2 branches covered.">                        .equalsIgnoreCase(&quot;true&quot;))) {</span>
+<span class="fc" id="L250">            return true;</span>
+        }
+<span class="fc" id="L252">        throw wrongValueFormatException(index, &quot;boolean&quot;, null);</span>
+    }
+
+    /**
+     * Get the double value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     * @throws JSONException
+     *             If the key is not found or if the value cannot be converted
+     *             to a number.
+     */
+    public double getDouble(int index) throws JSONException {
+<span class="fc" id="L266">        final Object object = this.get(index);</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        if(object instanceof Number) {</span>
+<span class="fc" id="L268">            return ((Number)object).doubleValue();</span>
+        }
+        try {
+<span class="fc" id="L271">            return Double.parseDouble(object.toString());</span>
+<span class="fc" id="L272">        } catch (Exception e) {</span>
+<span class="fc" id="L273">            throw wrongValueFormatException(index, &quot;double&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Get the float value associated with a key.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The numeric value.
+     * @throws JSONException
+     *             if the key is not found or if the value is not a Number
+     *             object and cannot be converted to a number.
+     */
+    public float getFloat(int index) throws JSONException {
+<span class="nc" id="L288">        final Object object = this.get(index);</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        if(object instanceof Number) {</span>
+<span class="nc" id="L290">            return ((Float)object).floatValue();</span>
+        }
+        try {
+<span class="nc" id="L293">            return Float.parseFloat(object.toString());</span>
+<span class="nc" id="L294">        } catch (Exception e) {</span>
+<span class="nc" id="L295">            throw wrongValueFormatException(index, &quot;float&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Get the Number value associated with a key.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The numeric value.
+     * @throws JSONException
+     *             if the key is not found or if the value is not a Number
+     *             object and cannot be converted to a number.
+     */
+    public Number getNumber(int index) throws JSONException {
+<span class="nc" id="L310">        Object object = this.get(index);</span>
+        try {
+<span class="nc bnc" id="L312" title="All 2 branches missed.">            if (object instanceof Number) {</span>
+<span class="nc" id="L313">                return (Number)object;</span>
+            }
+<span class="nc" id="L315">            return JSONObject.stringToNumber(object.toString());</span>
+<span class="nc" id="L316">        } catch (Exception e) {</span>
+<span class="nc" id="L317">            throw wrongValueFormatException(index, &quot;number&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Get the enum value associated with an index.
+     * 
+     * @param &lt;E&gt;
+     *            Enum Type
+     * @param clazz
+     *            The type of enum to retrieve.
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The enum value at the index location
+     * @throws JSONException
+     *            if the key is not found or if the value cannot be converted
+     *            to an enum.
+     */
+    public &lt;E extends Enum&lt;E&gt;&gt; E getEnum(Class&lt;E&gt; clazz, int index) throws JSONException {
+<span class="nc" id="L336">        E val = optEnum(clazz, index);</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">        if(val==null) {</span>
+            // JSONException should really take a throwable argument.
+            // If it did, I would re-implement this with the Enum.valueOf
+            // method and place any thrown exception in the JSONException
+<span class="nc" id="L341">            throw wrongValueFormatException(index, &quot;enum of type &quot;</span>
+<span class="nc" id="L342">                    + JSONObject.quote(clazz.getSimpleName()), null);</span>
+        }
+<span class="nc" id="L344">        return val;</span>
+    }
+
+    /**
+     * Get the BigDecimal value associated with an index. If the value is float
+     * or double, the the {@link BigDecimal#BigDecimal(double)} constructor
+     * will be used. See notes on the constructor for conversion issues that
+     * may arise.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     * @throws JSONException
+     *             If the key is not found or if the value cannot be converted
+     *             to a BigDecimal.
+     */
+    public BigDecimal getBigDecimal (int index) throws JSONException {
+<span class="nc" id="L361">        Object object = this.get(index);</span>
+<span class="nc" id="L362">        BigDecimal val = JSONObject.objectToBigDecimal(object, null);</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">        if(val == null) {</span>
+<span class="nc" id="L364">            throw wrongValueFormatException(index, &quot;BigDecimal&quot;, object, null);</span>
+        }
+<span class="nc" id="L366">        return val;</span>
+    }
+
+    /**
+     * Get the BigInteger value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     * @throws JSONException
+     *             If the key is not found or if the value cannot be converted
+     *             to a BigInteger.
+     */
+    public BigInteger getBigInteger (int index) throws JSONException {
+<span class="nc" id="L380">        Object object = this.get(index);</span>
+<span class="nc" id="L381">        BigInteger val = JSONObject.objectToBigInteger(object, null);</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">        if(val == null) {</span>
+<span class="nc" id="L383">            throw wrongValueFormatException(index, &quot;BigInteger&quot;, object, null);</span>
+        }
+<span class="nc" id="L385">        return val;</span>
+    }
+
+    /**
+     * Get the int value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     * @throws JSONException
+     *             If the key is not found or if the value is not a number.
+     */
+    public int getInt(int index) throws JSONException {
+<span class="nc" id="L398">        final Object object = this.get(index);</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">        if(object instanceof Number) {</span>
+<span class="nc" id="L400">            return ((Number)object).intValue();</span>
+        }
+        try {
+<span class="nc" id="L403">            return Integer.parseInt(object.toString());</span>
+<span class="nc" id="L404">        } catch (Exception e) {</span>
+<span class="nc" id="L405">            throw wrongValueFormatException(index, &quot;int&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Get the JSONArray associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return A JSONArray value.
+     * @throws JSONException
+     *             If there is no value for the index. or if the value is not a
+     *             JSONArray
+     */
+    public JSONArray getJSONArray(int index) throws JSONException {
+<span class="nc" id="L420">        Object object = this.get(index);</span>
+<span class="nc bnc" id="L421" title="All 2 branches missed.">        if (object instanceof JSONArray) {</span>
+<span class="nc" id="L422">            return (JSONArray) object;</span>
+        }
+<span class="nc" id="L424">        throw wrongValueFormatException(index, &quot;JSONArray&quot;, null);</span>
+    }
+
+    /**
+     * Get the JSONObject associated with an index.
+     *
+     * @param index
+     *            subscript
+     * @return A JSONObject value.
+     * @throws JSONException
+     *             If there is no value for the index or if the value is not a
+     *             JSONObject
+     */
+    public JSONObject getJSONObject(int index) throws JSONException {
+<span class="nc" id="L438">        Object object = this.get(index);</span>
+<span class="nc bnc" id="L439" title="All 2 branches missed.">        if (object instanceof JSONObject) {</span>
+<span class="nc" id="L440">            return (JSONObject) object;</span>
+        }
+<span class="nc" id="L442">        throw wrongValueFormatException(index, &quot;JSONObject&quot;, null);</span>
+    }
+
+    /**
+     * Get the long value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     * @throws JSONException
+     *             If the key is not found or if the value cannot be converted
+     *             to a number.
+     */
+    public long getLong(int index) throws JSONException {
+<span class="nc" id="L456">        final Object object = this.get(index);</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">        if(object instanceof Number) {</span>
+<span class="nc" id="L458">            return ((Number)object).longValue();</span>
+        }
+        try {
+<span class="nc" id="L461">            return Long.parseLong(object.toString());</span>
+<span class="nc" id="L462">        } catch (Exception e) {</span>
+<span class="nc" id="L463">            throw wrongValueFormatException(index, &quot;long&quot;, e);</span>
+        }
+    }
+
+    /**
+     * Get the string associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return A string value.
+     * @throws JSONException
+     *             If there is no string value for the index.
+     */
+    public String getString(int index) throws JSONException {
+<span class="nc" id="L477">        Object object = this.get(index);</span>
+<span class="nc bnc" id="L478" title="All 2 branches missed.">        if (object instanceof String) {</span>
+<span class="nc" id="L479">            return (String) object;</span>
+        }
+<span class="nc" id="L481">        throw wrongValueFormatException(index, &quot;String&quot;, null);</span>
+    }
+
+    /**
+     * Determine if the value is &lt;code&gt;null&lt;/code&gt;.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return true if the value at the index is &lt;code&gt;null&lt;/code&gt;, or if there is no value.
+     */
+    public boolean isNull(int index) {
+<span class="nc" id="L492">        return JSONObject.NULL.equals(this.opt(index));</span>
+    }
+
+    /**
+     * Make a string from the contents of this JSONArray. The
+     * &lt;code&gt;separator&lt;/code&gt; string is inserted between each element. Warning:
+     * This method assumes that the data structure is acyclical.
+     *
+     * @param separator
+     *            A string that will be inserted between the elements.
+     * @return a string.
+     * @throws JSONException
+     *             If the array contains an invalid number.
+     */
+    public String join(String separator) throws JSONException {
+<span class="fc" id="L507">        int len = this.length();</span>
+<span class="fc bfc" id="L508" title="All 2 branches covered.">        if (len == 0) {</span>
+<span class="fc" id="L509">            return &quot;&quot;;</span>
+        }
+        
+<span class="fc" id="L512">        StringBuilder sb = new StringBuilder(</span>
+<span class="fc" id="L513">                   JSONObject.valueToString(this.myArrayList.get(0)));</span>
+
+<span class="fc bfc" id="L515" title="All 2 branches covered.">        for (int i = 1; i &lt; len; i++) {</span>
+<span class="fc" id="L516">            sb.append(separator)</span>
+<span class="fc" id="L517">              .append(JSONObject.valueToString(this.myArrayList.get(i)));</span>
+        }
+<span class="fc" id="L519">        return sb.toString();</span>
+    }
+
+    /**
+     * Get the number of elements in the JSONArray, included nulls.
+     *
+     * @return The length (or size).
+     */
+    public int length() {
+<span class="fc" id="L528">        return this.myArrayList.size();</span>
+    }
+
+    /**
+     * Get the optional object value associated with an index.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1. If not, null is returned.
+     * @return An object value, or null if there is no object at that index.
+     */
+    public Object opt(int index) {
+<span class="pc bpc" id="L539" title="2 of 4 branches missed.">        return (index &lt; 0 || index &gt;= this.length()) ? null : this.myArrayList</span>
+<span class="fc" id="L540">                .get(index);</span>
+    }
+
+    /**
+     * Get the optional boolean value associated with an index. It returns false
+     * if there is no value at that index, or if the value is not Boolean.TRUE
+     * or the String &quot;true&quot;.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The truth.
+     */
+    public boolean optBoolean(int index) {
+<span class="nc" id="L553">        return this.optBoolean(index, false);</span>
+    }
+
+    /**
+     * Get the optional boolean value associated with an index. It returns the
+     * defaultValue if there is no value at that index or if it is not a Boolean
+     * or the String &quot;true&quot; or &quot;false&quot; (case insensitive).
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            A boolean default.
+     * @return The truth.
+     */
+    public boolean optBoolean(int index, boolean defaultValue) {
+        try {
+<span class="nc" id="L569">            return this.getBoolean(index);</span>
+<span class="nc" id="L570">        } catch (Exception e) {</span>
+<span class="nc" id="L571">            return defaultValue;</span>
+        }
+    }
+
+    /**
+     * Get the optional double value associated with an index. NaN is returned
+     * if there is no value for the index, or if the value is not a number and
+     * cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     */
+    public double optDouble(int index) {
+<span class="nc" id="L585">        return this.optDouble(index, Double.NaN);</span>
+    }
+
+    /**
+     * Get the optional double value associated with an index. The defaultValue
+     * is returned if there is no value for the index, or if the value is not a
+     * number and cannot be converted to a number.
+     *
+     * @param index
+     *            subscript
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public double optDouble(int index, double defaultValue) {
+<span class="nc" id="L600">        final Number val = this.optNumber(index, null);</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">        if (val == null) {</span>
+<span class="nc" id="L602">            return defaultValue;</span>
+        }
+<span class="nc" id="L604">        final double doubleValue = val.doubleValue();</span>
+        // if (Double.isNaN(doubleValue) || Double.isInfinite(doubleValue)) {
+        // return defaultValue;
+        // }
+<span class="nc" id="L608">        return doubleValue;</span>
+    }
+
+    /**
+     * Get the optional float value associated with an index. NaN is returned
+     * if there is no value for the index, or if the value is not a number and
+     * cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     */
+    public float optFloat(int index) {
+<span class="nc" id="L621">        return this.optFloat(index, Float.NaN);</span>
+    }
+
+    /**
+     * Get the optional float value associated with an index. The defaultValue
+     * is returned if there is no value for the index, or if the value is not a
+     * number and cannot be converted to a number.
+     *
+     * @param index
+     *            subscript
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public float optFloat(int index, float defaultValue) {
+<span class="nc" id="L636">        final Number val = this.optNumber(index, null);</span>
+<span class="nc bnc" id="L637" title="All 2 branches missed.">        if (val == null) {</span>
+<span class="nc" id="L638">            return defaultValue;</span>
+        }
+<span class="nc" id="L640">        final float floatValue = val.floatValue();</span>
+        // if (Float.isNaN(floatValue) || Float.isInfinite(floatValue)) {
+        // return floatValue;
+        // }
+<span class="nc" id="L644">        return floatValue;</span>
+    }
+
+    /**
+     * Get the optional int value associated with an index. Zero is returned if
+     * there is no value for the index, or if the value is not a number and
+     * cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     */
+    public int optInt(int index) {
+<span class="nc" id="L657">        return this.optInt(index, 0);</span>
+    }
+
+    /**
+     * Get the optional int value associated with an index. The defaultValue is
+     * returned if there is no value for the index, or if the value is not a
+     * number and cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public int optInt(int index, int defaultValue) {
+<span class="nc" id="L672">        final Number val = this.optNumber(index, null);</span>
+<span class="nc bnc" id="L673" title="All 2 branches missed.">        if (val == null) {</span>
+<span class="nc" id="L674">            return defaultValue;</span>
+        }
+<span class="nc" id="L676">        return val.intValue();</span>
+    }
+
+    /**
+     * Get the enum value associated with a key.
+     * 
+     * @param &lt;E&gt;
+     *            Enum Type
+     * @param clazz
+     *            The type of enum to retrieve.
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The enum value at the index location or null if not found
+     */
+    public &lt;E extends Enum&lt;E&gt;&gt; E optEnum(Class&lt;E&gt; clazz, int index) {
+<span class="nc" id="L691">        return this.optEnum(clazz, index, null);</span>
+    }
+
+    /**
+     * Get the enum value associated with a key.
+     * 
+     * @param &lt;E&gt;
+     *            Enum Type
+     * @param clazz
+     *            The type of enum to retrieve.
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default in case the value is not found
+     * @return The enum value at the index location or defaultValue if
+     *            the value is not found or cannot be assigned to clazz
+     */
+    public &lt;E extends Enum&lt;E&gt;&gt; E optEnum(Class&lt;E&gt; clazz, int index, E defaultValue) {
+        try {
+<span class="nc" id="L710">            Object val = this.opt(index);</span>
+<span class="nc bnc" id="L711" title="All 2 branches missed.">            if (JSONObject.NULL.equals(val)) {</span>
+<span class="nc" id="L712">                return defaultValue;</span>
+            }
+<span class="nc bnc" id="L714" title="All 2 branches missed.">            if (clazz.isAssignableFrom(val.getClass())) {</span>
+                // we just checked it!
+                @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L717">                E myE = (E) val;</span>
+<span class="nc" id="L718">                return myE;</span>
+            }
+<span class="nc" id="L720">            return Enum.valueOf(clazz, val.toString());</span>
+<span class="nc" id="L721">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L722">            return defaultValue;</span>
+<span class="nc" id="L723">        } catch (NullPointerException e) {</span>
+<span class="nc" id="L724">            return defaultValue;</span>
+        }
+    }
+
+    /**
+     * Get the optional BigInteger value associated with an index. The 
+     * defaultValue is returned if there is no value for the index, or if the 
+     * value is not a number and cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public BigInteger optBigInteger(int index, BigInteger defaultValue) {
+<span class="nc" id="L740">        Object val = this.opt(index);</span>
+<span class="nc" id="L741">        return JSONObject.objectToBigInteger(val, defaultValue);</span>
+    }
+
+    /**
+     * Get the optional BigDecimal value associated with an index. The 
+     * defaultValue is returned if there is no value for the index, or if the 
+     * value is not a number and cannot be converted to a number. If the value
+     * is float or double, the the {@link BigDecimal#BigDecimal(double)}
+     * constructor will be used. See notes on the constructor for conversion
+     * issues that may arise.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public BigDecimal optBigDecimal(int index, BigDecimal defaultValue) {
+<span class="nc" id="L759">        Object val = this.opt(index);</span>
+<span class="nc" id="L760">        return JSONObject.objectToBigDecimal(val, defaultValue);</span>
+    }
+
+    /**
+     * Get the optional JSONArray associated with an index.
+     *
+     * @param index
+     *            subscript
+     * @return A JSONArray value, or null if the index has no value, or if the
+     *         value is not a JSONArray.
+     */
+    public JSONArray optJSONArray(int index) {
+<span class="nc" id="L772">        Object o = this.opt(index);</span>
+<span class="nc bnc" id="L773" title="All 2 branches missed.">        return o instanceof JSONArray ? (JSONArray) o : null;</span>
+    }
+
+    /**
+     * Get the optional JSONObject associated with an index. Null is returned if
+     * the key is not found, or null if the index has no value, or if the value
+     * is not a JSONObject.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return A JSONObject value.
+     */
+    public JSONObject optJSONObject(int index) {
+<span class="nc" id="L786">        Object o = this.opt(index);</span>
+<span class="nc bnc" id="L787" title="All 2 branches missed.">        return o instanceof JSONObject ? (JSONObject) o : null;</span>
+    }
+
+    /**
+     * Get the optional long value associated with an index. Zero is returned if
+     * there is no value for the index, or if the value is not a number and
+     * cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return The value.
+     */
+    public long optLong(int index) {
+<span class="nc" id="L800">        return this.optLong(index, 0);</span>
+    }
+
+    /**
+     * Get the optional long value associated with an index. The defaultValue is
+     * returned if there is no value for the index, or if the value is not a
+     * number and cannot be converted to a number.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default value.
+     * @return The value.
+     */
+    public long optLong(int index, long defaultValue) {
+<span class="nc" id="L815">        final Number val = this.optNumber(index, null);</span>
+<span class="nc bnc" id="L816" title="All 2 branches missed.">        if (val == null) {</span>
+<span class="nc" id="L817">            return defaultValue;</span>
+        }
+<span class="nc" id="L819">        return val.longValue();</span>
+    }
+
+    /**
+     * Get an optional {@link Number} value associated with a key, or &lt;code&gt;null&lt;/code&gt;
+     * if there is no such key or if the value is not a number. If the value is a string,
+     * an attempt will be made to evaluate it as a number ({@link BigDecimal}). This method
+     * would be used in cases where type coercion of the number value is unwanted.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return An object which is the value.
+     */
+    public Number optNumber(int index) {
+<span class="nc" id="L833">        return this.optNumber(index, null);</span>
+    }
+
+    /**
+     * Get an optional {@link Number} value associated with a key, or the default if there
+     * is no such key or if the value is not a number. If the value is a string,
+     * an attempt will be made to evaluate it as a number ({@link BigDecimal}). This method
+     * would be used in cases where type coercion of the number value is unwanted.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default.
+     * @return An object which is the value.
+     */
+    public Number optNumber(int index, Number defaultValue) {
+<span class="nc" id="L849">        Object val = this.opt(index);</span>
+<span class="nc bnc" id="L850" title="All 2 branches missed.">        if (JSONObject.NULL.equals(val)) {</span>
+<span class="nc" id="L851">            return defaultValue;</span>
+        }
+<span class="nc bnc" id="L853" title="All 2 branches missed.">        if (val instanceof Number){</span>
+<span class="nc" id="L854">            return (Number) val;</span>
+        }
+        
+<span class="nc bnc" id="L857" title="All 2 branches missed.">        if (val instanceof String) {</span>
+            try {
+<span class="nc" id="L859">                return JSONObject.stringToNumber((String) val);</span>
+<span class="nc" id="L860">            } catch (Exception e) {</span>
+<span class="nc" id="L861">                return defaultValue;</span>
+            }
+        }
+<span class="nc" id="L864">        return defaultValue;</span>
+    }
+
+    /**
+     * Get the optional string value associated with an index. It returns an
+     * empty string if there is no value at that index. If the value is not a
+     * string and is not null, then it is converted to a string.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @return A String value.
+     */
+    public String optString(int index) {
+<span class="nc" id="L877">        return this.optString(index, &quot;&quot;);</span>
+    }
+
+    /**
+     * Get the optional string associated with an index. The defaultValue is
+     * returned if the key is not found.
+     *
+     * @param index
+     *            The index must be between 0 and length() - 1.
+     * @param defaultValue
+     *            The default value.
+     * @return A String value.
+     */
+    public String optString(int index, String defaultValue) {
+<span class="nc" id="L891">        Object object = this.opt(index);</span>
+<span class="nc bnc" id="L892" title="All 2 branches missed.">        return JSONObject.NULL.equals(object) ? defaultValue : object</span>
+<span class="nc" id="L893">                .toString();</span>
+    }
+
+    /**
+     * Append a boolean value. This increases the array's length by one.
+     *
+     * @param value
+     *            A boolean value.
+     * @return this.
+     */
+    public JSONArray put(boolean value) {
+<span class="nc bnc" id="L904" title="All 2 branches missed.">        return this.put(value ? Boolean.TRUE : Boolean.FALSE);</span>
+    }
+
+    /**
+     * Put a value in the JSONArray, where the value will be a JSONArray which
+     * is produced from a Collection.
+     *
+     * @param value
+     *            A Collection value.
+     * @return this.
+     * @throws JSONException
+     *            If the value is non-finite number.
+     */
+    public JSONArray put(Collection&lt;?&gt; value) {
+<span class="nc" id="L918">        return this.put(new JSONArray(value));</span>
+    }
+
+    /**
+     * Append a double value. This increases the array's length by one.
+     *
+     * @param value
+     *            A double value.
+     * @return this.
+     * @throws JSONException
+     *             if the value is not finite.
+     */
+    public JSONArray put(double value) throws JSONException {
+<span class="nc" id="L931">        return this.put(Double.valueOf(value));</span>
+    }
+    
+    /**
+     * Append a float value. This increases the array's length by one.
+     *
+     * @param value
+     *            A float value.
+     * @return this.
+     * @throws JSONException
+     *             if the value is not finite.
+     */
+    public JSONArray put(float value) throws JSONException {
+<span class="nc" id="L944">        return this.put(Float.valueOf(value));</span>
+    }
+
+    /**
+     * Append an int value. This increases the array's length by one.
+     *
+     * @param value
+     *            An int value.
+     * @return this.
+     */
+    public JSONArray put(int value) {
+<span class="nc" id="L955">        return this.put(Integer.valueOf(value));</span>
+    }
+
+    /**
+     * Append an long value. This increases the array's length by one.
+     *
+     * @param value
+     *            A long value.
+     * @return this.
+     */
+    public JSONArray put(long value) {
+<span class="nc" id="L966">        return this.put(Long.valueOf(value));</span>
+    }
+
+    /**
+     * Put a value in the JSONArray, where the value will be a JSONObject which
+     * is produced from a Map.
+     *
+     * @param value
+     *            A Map value.
+     * @return this.
+     * @throws JSONException
+     *            If a value in the map is non-finite number.
+     * @throws NullPointerException
+     *            If a key in the map is &lt;code&gt;null&lt;/code&gt;
+     */
+    public JSONArray put(Map&lt;?, ?&gt; value) {
+<span class="nc" id="L982">        return this.put(new JSONObject(value));</span>
+    }
+
+    /**
+     * Append an object value. This increases the array's length by one.
+     *
+     * @param value
+     *            An object value. The value should be a Boolean, Double,
+     *            Integer, JSONArray, JSONObject, Long, or String, or the
+     *            JSONObject.NULL object.
+     * @return this.
+     * @throws JSONException
+     *            If the value is non-finite number.
+     */
+    public JSONArray put(Object value) {
+<span class="fc" id="L997">        JSONObject.testValidity(value);</span>
+<span class="fc" id="L998">        this.myArrayList.add(value);</span>
+<span class="fc" id="L999">        return this;</span>
+    }
+
+    /**
+     * Put or replace a boolean value in the JSONArray. If the index is greater
+     * than the length of the JSONArray, then null elements will be added as
+     * necessary to pad it out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            A boolean value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative.
+     */
+    public JSONArray put(int index, boolean value) throws JSONException {
+<span class="fc bfc" id="L1016" title="All 2 branches covered.">        return this.put(index, value ? Boolean.TRUE : Boolean.FALSE);</span>
+    }
+
+    /**
+     * Put a value in the JSONArray, where the value will be a JSONArray which
+     * is produced from a Collection.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            A Collection value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative or if the value is non-finite.
+     */
+    public JSONArray put(int index, Collection&lt;?&gt; value) throws JSONException {
+<span class="nc" id="L1032">        return this.put(index, new JSONArray(value));</span>
+    }
+
+    /**
+     * Put or replace a double value. If the index is greater than the length of
+     * the JSONArray, then null elements will be added as necessary to pad it
+     * out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            A double value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative or if the value is non-finite.
+     */
+    public JSONArray put(int index, double value) throws JSONException {
+<span class="nc" id="L1049">        return this.put(index, Double.valueOf(value));</span>
+    }
+
+    /**
+     * Put or replace a float value. If the index is greater than the length of
+     * the JSONArray, then null elements will be added as necessary to pad it
+     * out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            A float value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative or if the value is non-finite.
+     */
+    public JSONArray put(int index, float value) throws JSONException {
+<span class="nc" id="L1066">        return this.put(index, Float.valueOf(value));</span>
+    }
+
+    /**
+     * Put or replace an int value. If the index is greater than the length of
+     * the JSONArray, then null elements will be added as necessary to pad it
+     * out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            An int value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative.
+     */
+    public JSONArray put(int index, int value) throws JSONException {
+<span class="fc" id="L1083">        return this.put(index, Integer.valueOf(value));</span>
+    }
+
+    /**
+     * Put or replace a long value. If the index is greater than the length of
+     * the JSONArray, then null elements will be added as necessary to pad it
+     * out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            A long value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative.
+     */
+    public JSONArray put(int index, long value) throws JSONException {
+<span class="nc" id="L1100">        return this.put(index, Long.valueOf(value));</span>
+    }
+
+    /**
+     * Put a value in the JSONArray, where the value will be a JSONObject that
+     * is produced from a Map.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            The Map value.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative or if the the value is an invalid
+     *             number.
+     * @throws NullPointerException
+     *             If a key in the map is &lt;code&gt;null&lt;/code&gt;
+     */
+    public JSONArray put(int index, Map&lt;?, ?&gt; value) throws JSONException {
+<span class="nc" id="L1119">        this.put(index, new JSONObject(value));</span>
+<span class="nc" id="L1120">        return this;</span>
+    }
+
+    /**
+     * Put or replace an object value in the JSONArray. If the index is greater
+     * than the length of the JSONArray, then null elements will be added as
+     * necessary to pad it out.
+     *
+     * @param index
+     *            The subscript.
+     * @param value
+     *            The value to put into the array. The value should be a
+     *            Boolean, Double, Integer, JSONArray, JSONObject, Long, or
+     *            String, or the JSONObject.NULL object.
+     * @return this.
+     * @throws JSONException
+     *             If the index is negative or if the the value is an invalid
+     *             number.
+     */
+    public JSONArray put(int index, Object value) throws JSONException {
+<span class="fc bfc" id="L1140" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L1141">            throw new JSONException(&quot;JSONArray[&quot; + index + &quot;] not found.&quot;);</span>
+        }
+<span class="fc bfc" id="L1143" title="All 2 branches covered.">        if (index &lt; this.length()) {</span>
+<span class="fc" id="L1144">            JSONObject.testValidity(value);</span>
+<span class="fc" id="L1145">            this.myArrayList.set(index, value);</span>
+<span class="fc" id="L1146">            return this;</span>
+        }
+<span class="fc bfc" id="L1148" title="All 2 branches covered.">        if(index == this.length()){</span>
+            // simple append
+<span class="fc" id="L1150">            return this.put(value);</span>
+        }
+        // if we are inserting past the length, we want to grow the array all at once
+        // instead of incrementally.
+<span class="fc" id="L1154">        this.myArrayList.ensureCapacity(index + 1);</span>
+<span class="fc bfc" id="L1155" title="All 2 branches covered.">        while (index != this.length()) {</span>
+            // we don't need to test validity of NULL objects
+<span class="fc" id="L1157">            this.myArrayList.add(JSONObject.NULL);</span>
+        }
+<span class="fc" id="L1159">        return this.put(value);</span>
+    }
+    
+    /**
+     * Creates a JSONPointer using an initialization string and tries to 
+     * match it to an item within this JSONArray. For example, given a
+     * JSONArray initialized with this document:
+     * &lt;pre&gt;
+     * [
+     *     {&quot;b&quot;:&quot;c&quot;}
+     * ]
+     * &lt;/pre&gt;
+     * and this JSONPointer string: 
+     * &lt;pre&gt;
+     * &quot;/0/b&quot;
+     * &lt;/pre&gt;
+     * Then this method will return the String &quot;c&quot;
+     * A JSONPointerException may be thrown from code called by this method.
+     *
+     * @param jsonPointer string that can be used to create a JSONPointer
+     * @return the item matched by the JSONPointer, otherwise null
+     */
+    public Object query(String jsonPointer) {
+<span class="nc" id="L1182">        return query(new JSONPointer(jsonPointer));</span>
+    }
+    
+    /**
+     * Uses a user initialized JSONPointer  and tries to 
+     * match it to an item within this JSONArray. For example, given a
+     * JSONArray initialized with this document:
+     * &lt;pre&gt;
+     * [
+     *     {&quot;b&quot;:&quot;c&quot;}
+     * ]
+     * &lt;/pre&gt;
+     * and this JSONPointer: 
+     * &lt;pre&gt;
+     * &quot;/0/b&quot;
+     * &lt;/pre&gt;
+     * Then this method will return the String &quot;c&quot;
+     * A JSONPointerException may be thrown from code called by this method.
+     *
+     * @param jsonPointer string that can be used to create a JSONPointer
+     * @return the item matched by the JSONPointer, otherwise null
+     */
+    public Object query(JSONPointer jsonPointer) {
+<span class="nc" id="L1205">        return jsonPointer.queryFrom(this);</span>
+    }
+    
+    /**
+     * Queries and returns a value from this object using {@code jsonPointer}, or
+     * returns null if the query fails due to a missing key.
+     * 
+     * @param jsonPointer the string representation of the JSON pointer
+     * @return the queried value or {@code null}
+     * @throws IllegalArgumentException if {@code jsonPointer} has invalid syntax
+     */
+    public Object optQuery(String jsonPointer) {
+<span class="nc" id="L1217">    	return optQuery(new JSONPointer(jsonPointer));</span>
+    }
+    
+    /**
+     * Queries and returns a value from this object using {@code jsonPointer}, or
+     * returns null if the query fails due to a missing key.
+     * 
+     * @param jsonPointer The JSON pointer
+     * @return the queried value or {@code null}
+     * @throws IllegalArgumentException if {@code jsonPointer} has invalid syntax
+     */
+    public Object optQuery(JSONPointer jsonPointer) {
+        try {
+<span class="nc" id="L1230">            return jsonPointer.queryFrom(this);</span>
+<span class="nc" id="L1231">        } catch (JSONPointerException e) {</span>
+<span class="nc" id="L1232">            return null;</span>
+        }
+    }
+
+    /**
+     * Remove an index and close the hole.
+     *
+     * @param index
+     *            The index of the element to be removed.
+     * @return The value that was associated with the index, or null if there
+     *         was no value.
+     */
+    public Object remove(int index) {
+<span class="nc bnc" id="L1245" title="All 4 branches missed.">        return index &gt;= 0 &amp;&amp; index &lt; this.length()</span>
+<span class="nc" id="L1246">            ? this.myArrayList.remove(index)</span>
+<span class="nc" id="L1247">            : null;</span>
+    }
+
+    /**
+     * Determine if two JSONArrays are similar.
+     * They must contain similar sequences.
+     *
+     * @param other The other JSONArray
+     * @return true if they are equal
+     */
+    public boolean similar(Object other) {
+<span class="fc bfc" id="L1258" title="All 2 branches covered.">        if (!(other instanceof JSONArray)) {</span>
+<span class="fc" id="L1259">            return false;</span>
+        }
+<span class="fc" id="L1261">        int len = this.length();</span>
+<span class="fc bfc" id="L1262" title="All 2 branches covered.">        if (len != ((JSONArray)other).length()) {</span>
+<span class="fc" id="L1263">            return false;</span>
+        }
+<span class="fc bfc" id="L1265" title="All 2 branches covered.">        for (int i = 0; i &lt; len; i += 1) {</span>
+<span class="fc" id="L1266">            Object valueThis = this.myArrayList.get(i);</span>
+<span class="fc" id="L1267">            Object valueOther = ((JSONArray)other).myArrayList.get(i);</span>
+<span class="pc bpc" id="L1268" title="1 of 2 branches missed.">            if(valueThis == valueOther) {</span>
+<span class="fc" id="L1269">            	continue;</span>
+            }
+<span class="nc bnc" id="L1271" title="All 2 branches missed.">            if(valueThis == null) {</span>
+<span class="nc" id="L1272">            	return false;</span>
+            }
+<span class="nc bnc" id="L1274" title="All 2 branches missed.">            if (valueThis instanceof JSONObject) {</span>
+<span class="nc bnc" id="L1275" title="All 2 branches missed.">                if (!((JSONObject)valueThis).similar(valueOther)) {</span>
+<span class="nc" id="L1276">                    return false;</span>
+                }
+<span class="nc bnc" id="L1278" title="All 2 branches missed.">            } else if (valueThis instanceof JSONArray) {</span>
+<span class="nc bnc" id="L1279" title="All 2 branches missed.">                if (!((JSONArray)valueThis).similar(valueOther)) {</span>
+<span class="nc" id="L1280">                    return false;</span>
+                }
+<span class="nc bnc" id="L1282" title="All 2 branches missed.">            } else if (!valueThis.equals(valueOther)) {</span>
+<span class="nc" id="L1283">                return false;</span>
+            }
+        }
+<span class="fc" id="L1286">        return true;</span>
+    }
+
+    /**
+     * Produce a JSONObject by combining a JSONArray of names with the values of
+     * this JSONArray.
+     *
+     * @param names
+     *            A JSONArray containing a list of key strings. These will be
+     *            paired with the values.
+     * @return A JSONObject, or null if there are no names or if this JSONArray
+     *         has no values.
+     * @throws JSONException
+     *             If any of the names are null.
+     */
+    public JSONObject toJSONObject(JSONArray names) throws JSONException {
+<span class="nc bnc" id="L1302" title="All 6 branches missed.">        if (names == null || names.isEmpty() || this.isEmpty()) {</span>
+<span class="nc" id="L1303">            return null;</span>
+        }
+<span class="nc" id="L1305">        JSONObject jo = new JSONObject(names.length());</span>
+<span class="nc bnc" id="L1306" title="All 2 branches missed.">        for (int i = 0; i &lt; names.length(); i += 1) {</span>
+<span class="nc" id="L1307">            jo.put(names.getString(i), this.opt(i));</span>
+        }
+<span class="nc" id="L1309">        return jo;</span>
+    }
+
+    /**
+     * Make a JSON text of this JSONArray. For compactness, no unnecessary
+     * whitespace is added. If it is not possible to produce a syntactically
+     * correct JSON text then null will be returned instead. This could occur if
+     * the array contains an invalid number.
+     * &lt;p&gt;&lt;b&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     * &lt;/b&gt;
+     *
+     * @return a printable, displayable, transmittable representation of the
+     *         array.
+     */
+    @Override
+    public String toString() {
+        try {
+<span class="fc" id="L1327">            return this.toString(0);</span>
+<span class="nc" id="L1328">        } catch (Exception e) {</span>
+<span class="nc" id="L1329">            return null;</span>
+        }
+    }
+
+    /**
+     * Make a pretty-printed JSON text of this JSONArray.
+     * 
+     * &lt;p&gt;If &lt;code&gt;indentFactor &gt; 0&lt;/code&gt; and the {@link JSONArray} has only
+     * one element, then the array will be output on a single line:
+     * &lt;pre&gt;{@code [1]}&lt;/pre&gt;
+     * 
+     * &lt;p&gt;If an array has 2 or more elements, then it will be output across
+     * multiple lines: &lt;pre&gt;{@code
+     * [
+     * 1,
+     * &quot;value 2&quot;,
+     * 3
+     * ]
+     * }&lt;/pre&gt;
+     * &lt;p&gt;&lt;b&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     * &lt;/b&gt;
+     * 
+     * @param indentFactor
+     *            The number of spaces to add to each level of indentation.
+     * @return a printable, displayable, transmittable representation of the
+     *         object, beginning with &lt;code&gt;[&lt;/code&gt;&amp;nbsp;&lt;small&gt;(left
+     *         bracket)&lt;/small&gt; and ending with &lt;code&gt;]&lt;/code&gt;
+     *         &amp;nbsp;&lt;small&gt;(right bracket)&lt;/small&gt;.
+     * @throws JSONException
+     */
+    public String toString(int indentFactor) throws JSONException {
+<span class="fc" id="L1361">        StringWriter sw = new StringWriter();</span>
+<span class="fc" id="L1362">        synchronized (sw.getBuffer()) {</span>
+<span class="fc" id="L1363">            return this.write(sw, indentFactor, 0).toString();</span>
+        }
+    }
+
+    /**
+     * Write the contents of the JSONArray as JSON text to a writer. For
+     * compactness, no whitespace is added.
+     * &lt;p&gt;&lt;b&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     *&lt;/b&gt;
+     *
+     * @return The writer.
+     * @throws JSONException
+     */
+    public Writer write(Writer writer) throws JSONException {
+<span class="nc" id="L1378">        return this.write(writer, 0, 0);</span>
+    }
+
+    /**
+     * Write the contents of the JSONArray as JSON text to a writer.
+     * 
+     * &lt;p&gt;If &lt;code&gt;indentFactor &gt; 0&lt;/code&gt; and the {@link JSONArray} has only
+     * one element, then the array will be output on a single line:
+     * &lt;pre&gt;{@code [1]}&lt;/pre&gt;
+     * 
+     * &lt;p&gt;If an array has 2 or more elements, then it will be output across
+     * multiple lines: &lt;pre&gt;{@code
+     * [
+     * 1,
+     * &quot;value 2&quot;,
+     * 3
+     * ]
+     * }&lt;/pre&gt;
+     * &lt;p&gt;&lt;b&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     * &lt;/b&gt;
+     *
+     * @param writer
+     *            Writes the serialized JSON
+     * @param indentFactor
+     *            The number of spaces to add to each level of indentation.
+     * @param indent
+     *            The indentation of the top level.
+     * @return The writer.
+     * @throws JSONException
+     */
+    public Writer write(Writer writer, int indentFactor, int indent)
+            throws JSONException {
+        try {
+<span class="fc" id="L1412">            boolean needsComma = false;</span>
+<span class="fc" id="L1413">            int length = this.length();</span>
+<span class="fc" id="L1414">            writer.write('[');</span>
+
+<span class="fc bfc" id="L1416" title="All 2 branches covered.">            if (length == 1) {</span>
+                try {
+<span class="fc" id="L1418">                    JSONObject.writeValue(writer, this.myArrayList.get(0),</span>
+                            indentFactor, indent);
+<span class="nc" id="L1420">                } catch (Exception e) {</span>
+<span class="nc" id="L1421">                    throw new JSONException(&quot;Unable to write JSONArray value at index: 0&quot;, e);</span>
+<span class="fc" id="L1422">                }</span>
+<span class="pc bpc" id="L1423" title="1 of 2 branches missed.">            } else if (length != 0) {</span>
+<span class="fc" id="L1424">                final int newIndent = indent + indentFactor;</span>
+
+<span class="fc bfc" id="L1426" title="All 2 branches covered.">                for (int i = 0; i &lt; length; i += 1) {</span>
+<span class="fc bfc" id="L1427" title="All 2 branches covered.">                    if (needsComma) {</span>
+<span class="fc" id="L1428">                        writer.write(',');</span>
+                    }
+<span class="pc bpc" id="L1430" title="1 of 2 branches missed.">                    if (indentFactor &gt; 0) {</span>
+<span class="nc" id="L1431">                        writer.write('\n');</span>
+                    }
+<span class="fc" id="L1433">                    JSONObject.indent(writer, newIndent);</span>
+                    try {
+<span class="fc" id="L1435">                        JSONObject.writeValue(writer, this.myArrayList.get(i),</span>
+                                indentFactor, newIndent);
+<span class="nc" id="L1437">                    } catch (Exception e) {</span>
+<span class="nc" id="L1438">                        throw new JSONException(&quot;Unable to write JSONArray value at index: &quot; + i, e);</span>
+<span class="fc" id="L1439">                    }</span>
+<span class="fc" id="L1440">                    needsComma = true;</span>
+                }
+<span class="pc bpc" id="L1442" title="1 of 2 branches missed.">                if (indentFactor &gt; 0) {</span>
+<span class="nc" id="L1443">                    writer.write('\n');</span>
+                }
+<span class="fc" id="L1445">                JSONObject.indent(writer, indent);</span>
+            }
+<span class="fc" id="L1447">            writer.write(']');</span>
+<span class="fc" id="L1448">            return writer;</span>
+<span class="nc" id="L1449">        } catch (IOException e) {</span>
+<span class="nc" id="L1450">            throw new JSONException(e);</span>
+        }
+    }
+
+    /**
+     * Returns a java.util.List containing all of the elements in this array.
+     * If an element in the array is a JSONArray or JSONObject it will also
+     * be converted to a List and a Map respectively.
+     * &lt;p&gt;
+     * Warning: This method assumes that the data structure is acyclical.
+     *
+     * @return a java.util.List containing the elements of this array
+     */
+    public List&lt;Object&gt; toList() {
+<span class="fc" id="L1464">        List&lt;Object&gt; results = new ArrayList&lt;Object&gt;(this.myArrayList.size());</span>
+<span class="fc bfc" id="L1465" title="All 2 branches covered.">        for (Object element : this.myArrayList) {</span>
+<span class="pc bpc" id="L1466" title="2 of 4 branches missed.">            if (element == null || JSONObject.NULL.equals(element)) {</span>
+<span class="nc" id="L1467">                results.add(null);</span>
+<span class="pc bpc" id="L1468" title="1 of 2 branches missed.">            } else if (element instanceof JSONArray) {</span>
+<span class="nc" id="L1469">                results.add(((JSONArray) element).toList());</span>
+<span class="pc bpc" id="L1470" title="1 of 2 branches missed.">            } else if (element instanceof JSONObject) {</span>
+<span class="nc" id="L1471">                results.add(((JSONObject) element).toMap());</span>
+            } else {
+<span class="fc" id="L1473">                results.add(element);</span>
+            }
+<span class="fc" id="L1475">        }</span>
+<span class="fc" id="L1476">        return results;</span>
+    }
+
+    /**
+     * Check if JSONArray is empty.
+     *
+     * @return true if JSONArray is empty, otherwise false.
+     */
+    public boolean isEmpty() {
+<span class="nc" id="L1485">        return this.myArrayList.isEmpty();</span>
+    }
+    
+    /**
+     * Create a new JSONException in a common format for incorrect conversions.
+     * @param idx index of the item
+     * @param valueType the type of value being coerced to
+     * @param cause optional cause of the coercion failure
+     * @return JSONException that can be thrown.
+     */
+    private static JSONException wrongValueFormatException(
+            int idx,
+            String valueType,
+            Throwable cause) {
+<span class="fc" id="L1499">        return new JSONException(</span>
+                &quot;JSONArray[&quot; + idx + &quot;] is not a &quot; + valueType + &quot;.&quot;
+                , cause);
+    }
+    
+    /**
+     * Create a new JSONException in a common format for incorrect conversions.
+     * @param idx index of the item
+     * @param valueType the type of value being coerced to
+     * @param cause optional cause of the coercion failure
+     * @return JSONException that can be thrown.
+     */
+    private static JSONException wrongValueFormatException(
+            int idx,
+            String valueType,
+            Object value,
+            Throwable cause) {
+<span class="nc" id="L1516">        return new JSONException(</span>
+                &quot;JSONArray[&quot; + idx + &quot;] is not a &quot; + valueType + &quot; (&quot; + value + &quot;).&quot;
+                , cause);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
