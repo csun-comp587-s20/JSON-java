@@ -222,8 +222,7 @@ public class JSONObjectTest {
 		BigInteger value = new BigInteger("1");
 		jo.put("val1", value);
 		jo.increment("val1");
-		BigInteger truthValue = new BigInteger("2");
-		assertEquals(truthValue, jo.get("val1"));
+		assertEquals(new BigInteger("2"), jo.get("val1"));
 	}
 	
 	@Test
@@ -263,4 +262,65 @@ public class JSONObjectTest {
 		assertEquals("2", jo.get("val1"));
 	}
 	
+	/*when passing a null object to objectToBigInteger 
+	the default value should be returned.*/
+	@Test
+	public void getBigInteger_defaultValue() {
+		Object val = null;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, defaultVal);
+	}
+	
+	@Test
+	public void getBigInteger_bigInteger() {
+		Object val = new BigInteger("2");
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, val);
+	}
+	
+	@Test
+	public void getBigInteger_bigDecimal() {
+		Object val = new BigDecimal("2");
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	
+	@Test
+	public void getBigInteger_float() {
+		Object val = (float) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	@Test
+	public void getBigInteger_double() {
+		Object val = (double) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	@Test
+	public void getBigInteger_long() {
+		Object val = (long) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	@Test
+	public void getBigInteger_Integer() {
+		Object val = (Integer) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
 }
+
+
+
