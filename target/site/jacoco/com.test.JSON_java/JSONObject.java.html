@@ -129,7 +129,7 @@ public class JSONObject {
          */
         @Override
         public boolean equals(Object object) {
-<span class="pc bpc" id="L132" title="1 of 4 branches missed.">            return object == null || object == this;</span>
+<span class="fc bfc" id="L132" title="All 4 branches covered.">            return object == null || object == this;</span>
         }
         /**
          * A Null object is equal to the null value and to itself.
@@ -1218,7 +1218,7 @@ public class JSONObject {
             }
 <span class="fc" id="L1219">            return new BigDecimal(d).toBigInteger();</span>
         }
-<span class="pc bpc" id="L1221" title="5 of 8 branches missed.">        if (val instanceof Long || val instanceof Integer</span>
+<span class="fc bfc" id="L1221" title="All 8 branches covered.">        if (val instanceof Long || val instanceof Integer</span>
                 || val instanceof Short || val instanceof Byte){
 <span class="fc" id="L1223">            return BigInteger.valueOf(((Number) val).longValue());</span>
         }
@@ -1229,11 +1229,11 @@ public class JSONObject {
             // jo.optInt(&quot;double&quot;); -- will return 1, not an error
             // this conversion to BigDecimal then to BigInteger is to maintain
             // that type cast support that may truncate the decimal.
-<span class="nc" id="L1232">            final String valStr = val.toString();</span>
-<span class="nc bnc" id="L1233" title="All 2 branches missed.">            if(isDecimalNotation(valStr)) {</span>
-<span class="nc" id="L1234">                return new BigDecimal(valStr).toBigInteger();</span>
+<span class="fc" id="L1232">            final String valStr = val.toString();</span>
+<span class="fc bfc" id="L1233" title="All 2 branches covered.">            if(isDecimalNotation(valStr)) {</span>
+<span class="fc" id="L1234">                return new BigDecimal(valStr).toBigInteger();</span>
             }
-<span class="nc" id="L1236">            return new BigInteger(valStr);</span>
+<span class="fc" id="L1236">            return new BigInteger(valStr);</span>
 <span class="nc" id="L1237">        } catch (Exception e) {</span>
 <span class="nc" id="L1238">            return defaultValue;</span>
         }
@@ -2090,7 +2090,7 @@ public class JSONObject {
      * @return true if the string is &quot;-0&quot; or if it contains '.', 'e', or 'E', false otherwise.
      */
     protected static boolean isDecimalNotation(final String val) {
-<span class="pc bpc" id="L2093" title="2 of 4 branches missed.">        return val.indexOf('.') &gt; -1 || val.indexOf('e') &gt; -1</span>
+<span class="pc bpc" id="L2093" title="1 of 4 branches missed.">        return val.indexOf('.') &gt; -1 || val.indexOf('e') &gt; -1</span>
 <span class="pc bpc" id="L2094" title="2 of 4 branches missed.">                || val.indexOf('E') &gt; -1 || &quot;-0&quot;.equals(val);</span>
     }
     
@@ -2171,19 +2171,19 @@ public class JSONObject {
     // Changes to this method must be copied to the corresponding method in
     // the XML class to keep full support for Android
     public static Object stringToValue(String string) {
-<span class="pc bpc" id="L2174" title="1 of 2 branches missed.">        if (&quot;&quot;.equals(string)) {</span>
-<span class="nc" id="L2175">            return string;</span>
+<span class="fc bfc" id="L2174" title="All 2 branches covered.">        if (&quot;&quot;.equals(string)) {</span>
+<span class="fc" id="L2175">            return string;</span>
         }
 
         // check JSON key words true/false/null
-<span class="pc bpc" id="L2179" title="1 of 2 branches missed.">        if (&quot;true&quot;.equalsIgnoreCase(string)) {</span>
-<span class="nc" id="L2180">            return Boolean.TRUE;</span>
+<span class="fc bfc" id="L2179" title="All 2 branches covered.">        if (&quot;true&quot;.equalsIgnoreCase(string)) {</span>
+<span class="fc" id="L2180">            return Boolean.TRUE;</span>
         }
-<span class="pc bpc" id="L2182" title="1 of 2 branches missed.">        if (&quot;false&quot;.equalsIgnoreCase(string)) {</span>
-<span class="nc" id="L2183">            return Boolean.FALSE;</span>
+<span class="fc bfc" id="L2182" title="All 2 branches covered.">        if (&quot;false&quot;.equalsIgnoreCase(string)) {</span>
+<span class="fc" id="L2183">            return Boolean.FALSE;</span>
         }
-<span class="pc bpc" id="L2185" title="1 of 2 branches missed.">        if (&quot;null&quot;.equalsIgnoreCase(string)) {</span>
-<span class="nc" id="L2186">            return JSONObject.NULL;</span>
+<span class="fc bfc" id="L2185" title="All 2 branches covered.">        if (&quot;null&quot;.equalsIgnoreCase(string)) {</span>
+<span class="fc" id="L2186">            return JSONObject.NULL;</span>
         }
 
         /*
@@ -2192,15 +2192,15 @@ public class JSONObject {
          */
 
 <span class="fc" id="L2194">        char initial = string.charAt(0);</span>
-<span class="pc bpc" id="L2195" title="4 of 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
+<span class="pc bpc" id="L2195" title="2 of 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
             try {
                 // if we want full Big Number support the contents of this
                 // `try` block can be replaced with:
                 // return stringToNumber(string);
-<span class="pc bpc" id="L2200" title="1 of 2 branches missed.">                if (isDecimalNotation(string)) {</span>
-<span class="nc" id="L2201">                    Double d = Double.valueOf(string);</span>
-<span class="nc bnc" id="L2202" title="All 4 branches missed.">                    if (!d.isInfinite() &amp;&amp; !d.isNaN()) {</span>
-<span class="nc" id="L2203">                        return d;</span>
+<span class="fc bfc" id="L2200" title="All 2 branches covered.">                if (isDecimalNotation(string)) {</span>
+<span class="fc" id="L2201">                    Double d = Double.valueOf(string);</span>
+<span class="pc bpc" id="L2202" title="2 of 4 branches missed.">                    if (!d.isInfinite() &amp;&amp; !d.isNaN()) {</span>
+<span class="fc" id="L2203">                        return d;</span>
                     }
 <span class="nc" id="L2205">                } else {</span>
 <span class="fc" id="L2206">                    Long myLong = Long.valueOf(string);</span>

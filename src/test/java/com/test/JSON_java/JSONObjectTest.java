@@ -5,7 +5,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.math.BigInteger; 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.DoubleAdder;
+import java.math.BigInteger;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.math.BigDecimal; 
 
 
@@ -265,7 +269,7 @@ public class JSONObjectTest {
 	/*when passing a null object to objectToBigInteger 
 	the default value should be returned.*/
 	@Test
-	public void getBigInteger_defaultValue() {
+	public void obj2BigInteger_defaultValue() {
 		Object val = null;
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -273,7 +277,7 @@ public class JSONObjectTest {
 	}
 	
 	@Test
-	public void getBigInteger_bigInteger() {
+	public void obj2BigInteger_bigInteger() {
 		Object val = new BigInteger("2");
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -281,7 +285,7 @@ public class JSONObjectTest {
 	}
 	
 	@Test
-	public void getBigInteger_bigDecimal() {
+	public void obj2BigInteger_bigDecimal() {
 		Object val = new BigDecimal("2");
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -290,7 +294,7 @@ public class JSONObjectTest {
 	
 	
 	@Test
-	public void getBigInteger_float() {
+	public void obj2BigInteger_float() {
 		Object val = (float) 2;
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -298,7 +302,7 @@ public class JSONObjectTest {
 	}
 	
 	@Test
-	public void getBigInteger_double() {
+	public void obj2BigInteger_double() {
 		Object val = (double) 2;
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -306,7 +310,7 @@ public class JSONObjectTest {
 	}
 	
 	@Test
-	public void getBigInteger_long() {
+	public void obj2BigInteger_long() {
 		Object val = (long) 2;
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
@@ -314,11 +318,89 @@ public class JSONObjectTest {
 	}
 	
 	@Test
-	public void getBigInteger_Integer() {
+	public void obj2BigInteger_Integer() {
 		Object val = (Integer) 2;
 		BigInteger defaultVal = new BigInteger("0");
 		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
 		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	@Test
+	public void obj2BigInteger_Short() {
+		Object val = (short) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	@Test
+	public void obj2BigInteger_Byte() {
+		Object val = (byte) 2;
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));
+	}
+	
+	//AtomicInteger is an unchecked Number subclass
+	//it should still be handled by the function
+	@Test
+	public void obj2BigInteger_AtomicInteger() {
+		AtomicInteger val = new AtomicInteger(2);
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));	
+	}
+	
+	//DoubleAdder is an unchecked Number subclass
+	//it should still be handled by the function
+	@Test
+	public void obj2BigInteger_DoubleAdder() {
+		DoubleAdder val = new DoubleAdder();
+		val.add(2.0);
+		BigInteger defaultVal = new BigInteger("0");
+		BigInteger returnedVal = JSONObject.objectToBigInteger(val, defaultVal);
+		assertEquals(returnedVal, new BigInteger("2"));	
+	}
+	
+	@Test
+	public void stringToValue_emptyTest() {
+		String s1 = "";
+		assertEquals(s1, JSONObject.stringToValue(s1));
+	}
+	
+	@Test
+	public void stringToValue_trueTest() {
+		String s1 = "true";
+		boolean b = true;
+		assertEquals(b, JSONObject.stringToValue(s1));
+	}
+	
+	@Test
+	public void stringToValue_falseTest() {
+		String s1 = "false";
+		boolean b = false;
+		assertEquals(b, JSONObject.stringToValue(s1));
+	}
+	
+	@Test
+	public void stringToValue_nullTest() {
+		String s1 = "null";
+		JSONObject jo = new JSONObject();
+		assertEquals(jo.NULL, JSONObject.stringToValue(s1));
+	}
+	
+	@Test
+	public void stringToValue_num1() {
+		String s1 = "1";
+		JSONObject jo = new JSONObject();
+		assertEquals(1, JSONObject.stringToValue(s1));
+	}
+	
+	@Test
+	public void stringToValue_numNegative() {
+		String s1 = "-1.0";
+		JSONObject jo = new JSONObject();
+		assertEquals(-1.0, JSONObject.stringToValue(s1));
 	}
 }
 
