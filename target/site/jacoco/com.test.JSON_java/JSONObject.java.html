@@ -129,7 +129,7 @@ public class JSONObject {
          */
         @Override
         public boolean equals(Object object) {
-<span class="pc bpc" id="L132" title="2 of 4 branches missed.">            return object == null || object == this;</span>
+<span class="pc bpc" id="L132" title="1 of 4 branches missed.">            return object == null || object == this;</span>
         }
         /**
          * A Null object is equal to the null value and to itself.
@@ -1202,25 +1202,25 @@ public class JSONObject {
      *          to convert. 
      */
     static BigInteger objectToBigInteger(Object val, BigInteger defaultValue) {
-<span class="nc bnc" id="L1205" title="All 2 branches missed.">        if (NULL.equals(val)) {</span>
-<span class="nc" id="L1206">            return defaultValue;</span>
+<span class="fc bfc" id="L1205" title="All 2 branches covered.">        if (NULL.equals(val)) {</span>
+<span class="fc" id="L1206">            return defaultValue;</span>
         }
-<span class="nc bnc" id="L1208" title="All 2 branches missed.">        if (val instanceof BigInteger){</span>
-<span class="nc" id="L1209">            return (BigInteger) val;</span>
+<span class="fc bfc" id="L1208" title="All 2 branches covered.">        if (val instanceof BigInteger){</span>
+<span class="fc" id="L1209">            return (BigInteger) val;</span>
         }
-<span class="nc bnc" id="L1211" title="All 2 branches missed.">        if (val instanceof BigDecimal){</span>
-<span class="nc" id="L1212">            return ((BigDecimal) val).toBigInteger();</span>
+<span class="fc bfc" id="L1211" title="All 2 branches covered.">        if (val instanceof BigDecimal){</span>
+<span class="fc" id="L1212">            return ((BigDecimal) val).toBigInteger();</span>
         }
-<span class="nc bnc" id="L1214" title="All 4 branches missed.">        if (val instanceof Double || val instanceof Float){</span>
-<span class="nc" id="L1215">            final double d = ((Number) val).doubleValue();</span>
-<span class="nc bnc" id="L1216" title="All 2 branches missed.">            if(Double.isNaN(d)) {</span>
+<span class="fc bfc" id="L1214" title="All 4 branches covered.">        if (val instanceof Double || val instanceof Float){</span>
+<span class="fc" id="L1215">            final double d = ((Number) val).doubleValue();</span>
+<span class="pc bpc" id="L1216" title="1 of 2 branches missed.">            if(Double.isNaN(d)) {</span>
 <span class="nc" id="L1217">                return defaultValue;</span>
             }
-<span class="nc" id="L1219">            return new BigDecimal(d).toBigInteger();</span>
+<span class="fc" id="L1219">            return new BigDecimal(d).toBigInteger();</span>
         }
-<span class="nc bnc" id="L1221" title="All 8 branches missed.">        if (val instanceof Long || val instanceof Integer</span>
+<span class="pc bpc" id="L1221" title="5 of 8 branches missed.">        if (val instanceof Long || val instanceof Integer</span>
                 || val instanceof Short || val instanceof Byte){
-<span class="nc" id="L1223">            return BigInteger.valueOf(((Number) val).longValue());</span>
+<span class="fc" id="L1223">            return BigInteger.valueOf(((Number) val).longValue());</span>
         }
         // don't check if it's a string in case of unchecked Number subclasses
         try {
@@ -1969,9 +1969,9 @@ public class JSONObject {
     }
 
     public static Writer quote(String string, Writer w) throws IOException {
-<span class="pc bpc" id="L1972" title="2 of 4 branches missed.">        if (string == null || string.isEmpty()) {</span>
-<span class="nc" id="L1973">            w.write(&quot;\&quot;\&quot;&quot;);</span>
-<span class="nc" id="L1974">            return w;</span>
+<span class="pc bpc" id="L1972" title="1 of 4 branches missed.">        if (string == null || string.isEmpty()) {</span>
+<span class="fc" id="L1973">            w.write(&quot;\&quot;\&quot;&quot;);</span>
+<span class="fc" id="L1974">            return w;</span>
         }
 
         char b;
