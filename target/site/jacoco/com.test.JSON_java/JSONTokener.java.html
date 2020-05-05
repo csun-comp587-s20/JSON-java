@@ -422,7 +422,7 @@ public class JSONTokener {
 <span class="fc" id="L422">        char c = this.nextClean();</span>
         String string;
 
-<span class="pc bpc" id="L425" title="2 of 4 branches missed.">        switch (c) {</span>
+<span class="pc bpc" id="L425" title="3 of 4 branches missed.">        switch (c) {</span>
         case '&quot;':
         case '\'':
 <span class="fc" id="L428">            return this.nextString(c);</span>
@@ -443,20 +443,20 @@ public class JSONTokener {
          * formatting character.
          */
 
-<span class="fc" id="L446">        StringBuilder sb = new StringBuilder();</span>
-<span class="pc bpc" id="L447" title="1 of 4 branches missed.">        while (c &gt;= ' ' &amp;&amp; &quot;,:]}/\\\&quot;[{;=#&quot;.indexOf(c) &lt; 0) {</span>
-<span class="fc" id="L448">            sb.append(c);</span>
-<span class="fc" id="L449">            c = this.next();</span>
+<span class="nc" id="L446">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L447" title="All 4 branches missed.">        while (c &gt;= ' ' &amp;&amp; &quot;,:]}/\\\&quot;[{;=#&quot;.indexOf(c) &lt; 0) {</span>
+<span class="nc" id="L448">            sb.append(c);</span>
+<span class="nc" id="L449">            c = this.next();</span>
         }
-<span class="pc bpc" id="L451" title="1 of 2 branches missed.">        if (!this.eof) {</span>
-<span class="fc" id="L452">            this.back();</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">        if (!this.eof) {</span>
+<span class="nc" id="L452">            this.back();</span>
         }
 
-<span class="fc" id="L455">        string = sb.toString().trim();</span>
-<span class="pc bpc" id="L456" title="1 of 2 branches missed.">        if (&quot;&quot;.equals(string)) {</span>
+<span class="nc" id="L455">        string = sb.toString().trim();</span>
+<span class="nc bnc" id="L456" title="All 2 branches missed.">        if (&quot;&quot;.equals(string)) {</span>
 <span class="nc" id="L457">            throw this.syntaxError(&quot;Missing value&quot;);</span>
         }
-<span class="fc" id="L459">        return JSONObject.stringToValue(string);</span>
+<span class="nc" id="L459">        return JSONObject.stringToValue(string);</span>
     }
 
 

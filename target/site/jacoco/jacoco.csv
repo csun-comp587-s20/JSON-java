@@ -10,14 +10,14 @@ JSON-java,com.test.JSON_java,CookieList,90,0,8,0,23,0,7,0,3,0
 JSON-java,com.test.JSON_java,Cookie,284,0,38,0,58,0,24,0,5,0
 JSON-java,com.test.JSON_java,Driver,72,0,0,0,17,0,2,0,2,0
 JSON-java,com.test.JSON_java,CDL,334,0,84,0,87,0,54,0,11,0
-JSON-java,com.test.JSON_java,JSONObject,2173,597,422,98,547,148,323,41,75,25
+JSON-java,com.test.JSON_java,JSONObject,2054,716,408,112,528,167,312,52,70,30
 JSON-java,com.test.JSON_java,JSONML,748,0,134,0,190,0,79,0,12,0
 JSON-java,com.test.JSON_java,XMLParserConfiguration,52,0,0,0,18,0,6,0,6,0
 JSON-java,com.test.JSON_java,XMLTokener,459,0,97,0,137,0,67,0,10,0
 JSON-java,com.test.JSON_java,Property,66,0,12,0,17,0,9,0,3,0
 JSON-java,com.test.JSON_java,XML.new Iterable() {...},11,0,0,0,2,0,2,0,2,0
 JSON-java,com.test.JSON_java,JSONStringer,16,0,2,0,3,0,3,0,2,0
-JSON-java,com.test.JSON_java,JSONTokener,409,213,80,27,113,63,63,16,12,9
+JSON-java,com.test.JSON_java,JSONTokener,444,178,86,21,122,54,65,14,12,9
 JSON-java,com.test.JSON_java,HTTP,240,0,26,0,48,0,16,0,3,0
 JSON-java,com.test.JSON_java,XML.1.new Iterator() {...},45,0,2,0,8,0,5,0,4,0
 JSON-java,com.test.JSON_java,JSONArray,769,409,100,58,200,106,114,40,55,19

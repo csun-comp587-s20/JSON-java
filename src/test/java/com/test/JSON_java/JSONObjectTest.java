@@ -1,12 +1,14 @@
 package com.test.JSON_java;
 
 import static org.junit.Assert.*;
-
+import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.math.BigInteger; 
+import java.math.BigDecimal; 
 
-import org.junit.Test;
+
 
 public class JSONObjectTest {
 	
@@ -180,5 +182,85 @@ public class JSONObjectTest {
 		assertEquals(JSONObject.stringToValue(two), 2);
 	}
 	
+	@Test
+	public void incrementTest_nullValue() {
+		JSONObject jo = new JSONObject();
+		jo.increment("val1");
+		assertEquals(1, jo.get("val1"));
+	}
+
+	@Test
+	public void incrementTest_int() {
+		JSONObject jo = new JSONObject();
+		int value = 1;
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals(2, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_Integer() {
+		JSONObject jo = new JSONObject();
+		Integer value = 1;
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals(2, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_Long() {
+		JSONObject jo = new JSONObject();
+		Long value = (long) 1;
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals((long)2, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_BigInteger() {
+		JSONObject jo = new JSONObject();
+		BigInteger value = new BigInteger("1");
+		jo.put("val1", value);
+		jo.increment("val1");
+		BigInteger truthValue = new BigInteger("2");
+		assertEquals(truthValue, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_Float() {
+		JSONObject jo = new JSONObject();
+		Float value = (float) 1;
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals((float) 2, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_Double() {
+		JSONObject jo = new JSONObject();
+		Double value =  1.0;
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals(2.0, jo.get("val1"));
+	}
+	
+	@Test
+	public void incrementTest_BigDecimal() {
+		JSONObject jo = new JSONObject();
+		BigDecimal value =  new BigDecimal(1);
+		jo.put("val1", value);
+		jo.increment("val1");
+		BigDecimal truthValue =  new BigDecimal(2);
+		assertEquals(truthValue, jo.get("val1"));
+	}
+	
+	@Test(expected = JSONException.class)
+	public void incrementTest_NonAcceptableType() {
+		JSONObject jo = new JSONObject();
+		String value = "1";
+		jo.put("val1", value);
+		jo.increment("val1");
+		assertEquals("2", jo.get("val1"));
+	}
 	
 }

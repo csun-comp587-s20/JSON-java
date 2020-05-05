@@ -890,25 +890,25 @@ public class JSONObject {
      *             Integer, Long, Double, or Float.
      */
     public JSONObject increment(String key) throws JSONException {
-<span class="nc" id="L893">        Object value = this.opt(key);</span>
-<span class="nc bnc" id="L894" title="All 2 branches missed.">        if (value == null) {</span>
-<span class="nc" id="L895">            this.put(key, 1);</span>
-<span class="nc bnc" id="L896" title="All 2 branches missed.">        } else if (value instanceof Integer) {</span>
-<span class="nc" id="L897">            this.put(key, ((Integer) value).intValue() + 1);</span>
-<span class="nc bnc" id="L898" title="All 2 branches missed.">        } else if (value instanceof Long) {</span>
-<span class="nc" id="L899">            this.put(key, ((Long) value).longValue() + 1L);</span>
-<span class="nc bnc" id="L900" title="All 2 branches missed.">        } else if (value instanceof BigInteger) {</span>
-<span class="nc" id="L901">            this.put(key, ((BigInteger)value).add(BigInteger.ONE));</span>
-<span class="nc bnc" id="L902" title="All 2 branches missed.">        } else if (value instanceof Float) {</span>
-<span class="nc" id="L903">            this.put(key, ((Float) value).floatValue() + 1.0f);</span>
-<span class="nc bnc" id="L904" title="All 2 branches missed.">        } else if (value instanceof Double) {</span>
-<span class="nc" id="L905">            this.put(key, ((Double) value).doubleValue() + 1.0d);</span>
-<span class="nc bnc" id="L906" title="All 2 branches missed.">        } else if (value instanceof BigDecimal) {</span>
-<span class="nc" id="L907">            this.put(key, ((BigDecimal)value).add(BigDecimal.ONE));</span>
+<span class="fc" id="L893">        Object value = this.opt(key);</span>
+<span class="fc bfc" id="L894" title="All 2 branches covered.">        if (value == null) {</span>
+<span class="fc" id="L895">            this.put(key, 1);</span>
+<span class="fc bfc" id="L896" title="All 2 branches covered.">        } else if (value instanceof Integer) {</span>
+<span class="fc" id="L897">            this.put(key, ((Integer) value).intValue() + 1);</span>
+<span class="fc bfc" id="L898" title="All 2 branches covered.">        } else if (value instanceof Long) {</span>
+<span class="fc" id="L899">            this.put(key, ((Long) value).longValue() + 1L);</span>
+<span class="fc bfc" id="L900" title="All 2 branches covered.">        } else if (value instanceof BigInteger) {</span>
+<span class="fc" id="L901">            this.put(key, ((BigInteger)value).add(BigInteger.ONE));</span>
+<span class="fc bfc" id="L902" title="All 2 branches covered.">        } else if (value instanceof Float) {</span>
+<span class="fc" id="L903">            this.put(key, ((Float) value).floatValue() + 1.0f);</span>
+<span class="fc bfc" id="L904" title="All 2 branches covered.">        } else if (value instanceof Double) {</span>
+<span class="fc" id="L905">            this.put(key, ((Double) value).doubleValue() + 1.0d);</span>
+<span class="fc bfc" id="L906" title="All 2 branches covered.">        } else if (value instanceof BigDecimal) {</span>
+<span class="fc" id="L907">            this.put(key, ((BigDecimal)value).add(BigDecimal.ONE));</span>
         } else {
-<span class="nc" id="L909">            throw new JSONException(&quot;Unable to increment [&quot; + quote(key) + &quot;].&quot;);</span>
+<span class="fc" id="L909">            throw new JSONException(&quot;Unable to increment [&quot; + quote(key) + &quot;].&quot;);</span>
         }
-<span class="nc" id="L911">        return this;</span>
+<span class="fc" id="L911">        return this;</span>
     }
 
     /**
@@ -1727,7 +1727,7 @@ public class JSONObject {
      *            If the key is &lt;code&gt;null&lt;/code&gt;.
      */
     public JSONObject put(String key, double value) throws JSONException {
-<span class="nc" id="L1730">        return this.put(key, Double.valueOf(value));</span>
+<span class="fc" id="L1730">        return this.put(key, Double.valueOf(value));</span>
     }
     
     /**
@@ -1744,7 +1744,7 @@ public class JSONObject {
      *            If the key is &lt;code&gt;null&lt;/code&gt;.
      */
     public JSONObject put(String key, float value) throws JSONException {
-<span class="nc" id="L1747">        return this.put(key, Float.valueOf(value));</span>
+<span class="fc" id="L1747">        return this.put(key, Float.valueOf(value));</span>
     }
 
     /**
@@ -1761,7 +1761,7 @@ public class JSONObject {
      *            If the key is &lt;code&gt;null&lt;/code&gt;.
      */
     public JSONObject put(String key, int value) throws JSONException {
-<span class="nc" id="L1764">        return this.put(key, Integer.valueOf(value));</span>
+<span class="fc" id="L1764">        return this.put(key, Integer.valueOf(value));</span>
     }
 
     /**
@@ -1778,7 +1778,7 @@ public class JSONObject {
      *            If the key is &lt;code&gt;null&lt;/code&gt;.
      */
     public JSONObject put(String key, long value) throws JSONException {
-<span class="nc" id="L1781">        return this.put(key, Long.valueOf(value));</span>
+<span class="fc" id="L1781">        return this.put(key, Long.valueOf(value));</span>
     }
 
     /**
@@ -1969,9 +1969,9 @@ public class JSONObject {
     }
 
     public static Writer quote(String string, Writer w) throws IOException {
-<span class="pc bpc" id="L1972" title="1 of 4 branches missed.">        if (string == null || string.isEmpty()) {</span>
-<span class="fc" id="L1973">            w.write(&quot;\&quot;\&quot;&quot;);</span>
-<span class="fc" id="L1974">            return w;</span>
+<span class="pc bpc" id="L1972" title="2 of 4 branches missed.">        if (string == null || string.isEmpty()) {</span>
+<span class="nc" id="L1973">            w.write(&quot;\&quot;\&quot;&quot;);</span>
+<span class="nc" id="L1974">            return w;</span>
         }
 
         char b;
@@ -2192,7 +2192,7 @@ public class JSONObject {
          */
 
 <span class="fc" id="L2194">        char initial = string.charAt(0);</span>
-<span class="pc bpc" id="L2195" title="2 of 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
+<span class="pc bpc" id="L2195" title="4 of 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
             try {
                 // if we want full Big Number support the contents of this
                 // `try` block can be replaced with:
@@ -2214,7 +2214,7 @@ public class JSONObject {
 <span class="nc" id="L2214">            } catch (Exception ignore) {</span>
 <span class="nc" id="L2215">            }</span>
         }
-<span class="fc" id="L2217">        return string;</span>
+<span class="nc" id="L2217">        return string;</span>
     }
 
     /**
@@ -2232,8 +2232,8 @@ public class JSONObject {
 <span class="nc" id="L2232">                    throw new JSONException(</span>
                             &quot;JSON does not allow non-finite numbers.&quot;);
                 }
-<span class="pc bpc" id="L2235" title="1 of 2 branches missed.">            } else if (o instanceof Float) {</span>
-<span class="nc bnc" id="L2236" title="All 4 branches missed.">                if (((Float) o).isInfinite() || ((Float) o).isNaN()) {</span>
+<span class="fc bfc" id="L2235" title="All 2 branches covered.">            } else if (o instanceof Float) {</span>
+<span class="pc bpc" id="L2236" title="2 of 4 branches missed.">                if (((Float) o).isInfinite() || ((Float) o).isNaN()) {</span>
 <span class="nc" id="L2237">                    throw new JSONException(</span>
                             &quot;JSON does not allow non-finite numbers.&quot;);
                 }

@@ -1,4 +1,5 @@
 com\test\JSON_java\JSONArrayTest.class
+com\test\JSON_java\KeyandValuePairGenerator.class
 com\test\JSON_java\JSONObjectTest.class
 com\test\JSON_java\JSONTokenerTest.class
 com\test\JSON_java\JSONFormatStringGenerator.class
