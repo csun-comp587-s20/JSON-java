@@ -229,6 +229,7 @@ public class JSONArrayTest {
 	
 	/*try to retrieve a string using getBoolean. The string will not contain
 	 the value true or false so it should throw JSONException*/
+	//auto generated inputs
 	@Test(expected = JSONException.class) 
 	public void getBooleanTest_nonBooleanString() {
 		JSONFormatStringGenerator gen = new JSONFormatStringGenerator();
