@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuite tests="17" failures="0" name="com.test.JSON_java.JSONTokenerTest" time="0.003" errors="0" skipped="0">
+=======
+<testsuite tests="17" failures="0" name="com.test.JSON_java.JSONTokenerTest" time="0" errors="0" skipped="0">
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -71,7 +75,11 @@
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="nextTest_exhaustiveInputs_generatedStrings" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="more_test_ExpectsFalse" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="JSONTokener_moreTest_WithCharInput" time="0"/>
+<<<<<<< HEAD
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="nextTest_boundsError" time="0.003"/>
+=======
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="nextTest_boundsError" time="0"/>
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="dehexchar_test" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="dehexchar_test2" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="nextTest_exhaustiveInputs" time="0"/>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuite tests="21" failures="0" name="com.test.JSON_java.JSONArrayTest" time="0.163" errors="0" skipped="0">
+=======
+<testsuite tests="21" failures="0" name="com.test.JSON_java.JSONArrayTest" time="0.101" errors="0" skipped="0">
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -63,6 +67,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
+<<<<<<< HEAD
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="getBooleanTest_wrongFormatException" time="0.114"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_trueBoolean2" time="0"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_falseBoolean" time="0"/>
@@ -77,11 +82,33 @@
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="toStringTestSingleElementLists" time="0.007"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="similarTest_emptyArrays" time="0.003"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_trueBoolean" time="0"/>
+=======
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="getBooleanTest_wrongFormatException" time="0.062"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_trueBoolean2" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_falseBoolean" time="0.002"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="getBooleanTest_nonBooleanString" time="0.001"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetDoubleTest" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="joinTest_automatedInputs" time="0.009"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetDoubleTest_usingString" time="0.003"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="SimilarTest_JSONArraySameLength" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="joinTest_emptyJSONArray" time="0.001"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putTest_negativeIndexValue" time="0.007"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_falseBoolean2" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="toStringTestSingleElementLists" time="0.003"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="similarTest_emptyArrays" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_trueBoolean" time="0.004"/>
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putTest_IndexValueGreaterThanLength_random" time="0"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="similarTest_JSONArraysDifferentLengths" time="0"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="similarTest_nonJSONArray" time="0"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="toStringLongerLists" time="0"/>
+<<<<<<< HEAD
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="toListTest" time="0.008"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_object" time="0"/>
   <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetDoubleTest_wrongFormat" time="0"/>
+=======
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="toListTest" time="0.002"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetTest_object" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONArrayTest" name="putAndGetDoubleTest_wrongFormat" time="0.007"/>
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
 </testsuite>

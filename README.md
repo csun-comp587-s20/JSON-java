@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # JSON-java
+=======
+# JSON-java -- Chase Gould
+>>>>>>> 65f1b8429786b131eb5abdb37e56379407b73c44
 
 My JSON-java testing project utilizes Maven and JUnit.
 
