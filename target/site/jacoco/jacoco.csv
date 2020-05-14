@@ -17,7 +17,7 @@ JSON-java,com.test.JSON_java,XMLTokener,459,0,97,0,137,0,67,0,10,0
 JSON-java,com.test.JSON_java,Property,66,0,12,0,17,0,9,0,3,0
 JSON-java,com.test.JSON_java,XML.new Iterable() {...},11,0,0,0,2,0,2,0,2,0
 JSON-java,com.test.JSON_java,JSONStringer,16,0,2,0,3,0,3,0,2,0
-JSON-java,com.test.JSON_java,JSONTokener,444,178,86,21,122,54,65,14,12,9
+JSON-java,com.test.JSON_java,JSONTokener,349,273,67,40,91,85,53,26,8,13
 JSON-java,com.test.JSON_java,HTTP,240,0,26,0,48,0,16,0,3,0
 JSON-java,com.test.JSON_java,XML.1.new Iterator() {...},45,0,2,0,8,0,5,0,4,0
 JSON-java,com.test.JSON_java,JSONArray,769,409,100,58,200,106,114,40,55,19

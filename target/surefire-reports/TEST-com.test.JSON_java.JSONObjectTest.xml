@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="40" failures="0" name="com.test.JSON_java.JSONObjectTest" time="0.047" errors="0" skipped="0">
+<testsuite tests="40" failures="0" name="com.test.JSON_java.JSONObjectTest" time="0.048" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -70,7 +70,7 @@
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_double" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="incrementTest_Double" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_bigDecimal" time="0"/>
-  <testcase classname="com.test.JSON_java.JSONObjectTest" name="testMulti" time="0.033"/>
+  <testcase classname="com.test.JSON_java.JSONObjectTest" name="testMulti" time="0.02"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="stringToValueTest" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="stringToValue_numNegative" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_bigInteger" time="0"/>
@@ -86,9 +86,9 @@
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="incrementTest_BigDecimal" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="incrementTest_Long" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="incrementTest_BigInteger" time="0"/>
-  <testcase classname="com.test.JSON_java.JSONObjectTest" name="stringToValue_num1" time="0.005"/>
+  <testcase classname="com.test.JSON_java.JSONObjectTest" name="stringToValue_num1" time="0.008"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="JSONObjectConstructorSubset1" time="0"/>
-  <testcase classname="com.test.JSON_java.JSONObjectTest" name="JSONObjectConstructorSubset2" time="0.004"/>
+  <testcase classname="com.test.JSON_java.JSONObjectTest" name="JSONObjectConstructorSubset2" time="0.019"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_Short" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_float" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_Integer" time="0"/>
@@ -97,7 +97,7 @@
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_defaultValue" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="incrementTest_int" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="SimilarTest_KeysDoNotMatch" time="0"/>
-  <testcase classname="com.test.JSON_java.JSONObjectTest" name="putOnceDuplicateKeyTest" time="0.005"/>
+  <testcase classname="com.test.JSON_java.JSONObjectTest" name="putOnceDuplicateKeyTest" time="0.001"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="similarTest_Empty" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="SimilarTest_IdenticalKeys_differentJSONObjectValues" time="0"/>
   <testcase classname="com.test.JSON_java.JSONObjectTest" name="obj2BigInteger_Byte" time="0"/>

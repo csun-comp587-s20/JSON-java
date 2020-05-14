@@ -127,6 +127,16 @@ public class JSONObjectTest {
 		joTest.put("name2", "carl");
 		assertEquals(joMap.toString(), joTest.toString());	
 	}
+	
+	@Test
+	public void JSONObjectConstructorTest_JSONTokener() {
+		String s1 = "{I am the machine: }";
+		JSONTokener jt = new JSONTokener(s1);
+		JSONObject jo = new JSONObject(jt);
+		System.out.println("jsontokener: " + jt.toString());
+		System.out.println("jsonobject: " + jo.toString());
+		assertEquals(0,0);
+	}
 
 	
 	@Test

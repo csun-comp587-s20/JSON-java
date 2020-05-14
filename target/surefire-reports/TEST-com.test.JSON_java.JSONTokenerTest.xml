@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.test.JSON_java.JSONTokenerTest" time="0" errors="0" skipped="0">
+<testsuite tests="13" failures="0" name="com.test.JSON_java.JSONTokenerTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -63,8 +63,17 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="testJSONTokenerNext" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="testJSONTokenerNext_AutoGenInputs" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="testJSONTokener_Next" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="dehexchar_testNegativeInput" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="backFromStartofString" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="more_test_ExpectsFalse" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="skipTo_test_requestedCharNotAvailable" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="dehexchar_test" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="dehexchar_test2" time="0"/>
   <testcase classname="com.test.JSON_java.JSONTokenerTest" name="back2Steps" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="more_test_usePreviousEqualsTrue" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="JSONTokener_moreWithCharInput" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="skipTo_test" time="0"/>
+  <testcase classname="com.test.JSON_java.JSONTokenerTest" name="more_test" time="0"/>
 </testsuite>
