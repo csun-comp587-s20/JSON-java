@@ -11,10 +11,6 @@ import org.junit.Test;
 
 public class JSONArrayTest {
 	
-
-	/*I think the similar function is what I was writing that new 
-	 * generator class for
-	 */
 	@Test
 	public void similarTest_emptyArrays() {
 		JSONArray jArray = new JSONArray();
@@ -30,7 +26,6 @@ public class JSONArrayTest {
 		assertFalse(jArray.similar(jObj));
 	}
 	
-	//good candidate for automated inputs
 	@Test
 	public void SimilarTest_JSONArraySameLength() {
 		int numOfTests = 10;
@@ -54,9 +49,6 @@ public class JSONArrayTest {
 			assertTrue(jArr2.similar(jArr));
 		}
 	}
-	
-	
-	
 	
 	/*The similar function should return false when comparing 
 	* JSONArrays of different lengths.
@@ -129,6 +121,7 @@ public class JSONArrayTest {
 	}
 	
 	//test if JSONArray grows to size of the provided index argument
+	//auto generated inputs
 	@Test
 	public void putTest_IndexValueGreaterThanLength_random() {
 		Object obj = new Object();
@@ -157,8 +150,9 @@ public class JSONArrayTest {
 		}	
 	}
 	
-	/*test that we can put an object at an index less than lenght
+	/*test that we can put an object at an index less than length
 	 *  and then retrieve that object from the index*/
+	//auto generated inputs
 	@Test
 	public void putAndGetTest_object() {
 		Object obj = new Object();
@@ -179,6 +173,7 @@ public class JSONArrayTest {
 	
 	/*test that we can put an boolean at an index and then retrieve that
 	boolean from the index*/
+	//auto generated inputs
 	@Test
 	public void putAndGetTest_trueBoolean() {
 		boolean trueBool = true;
@@ -193,6 +188,7 @@ public class JSONArrayTest {
 	
 	/*test that we can put a string "true" at an index and then retrieve that
 	string as a boolean from the index*/
+	//auto generated inputs
 	@Test
 	public void putAndGetTest_trueBoolean2() {
 		String trueBoolString = "true";
@@ -207,6 +203,7 @@ public class JSONArrayTest {
 
 	/*test that we can put an boolean at an index and then retrieve that
 	boolean from the index*/
+	//auto generated inputs
 	@Test
 	public void putAndGetTest_falseBoolean() {
 		boolean falsebool = false;
@@ -220,6 +217,7 @@ public class JSONArrayTest {
 	
 	/*test that we can put a string "false" at an index and then retrieve that
 	string as a boolean from the index*/
+	//auto generated inputs
 	@Test
 	public void putAndGetTest_falseBoolean2() {
 		String falseboolString = "false";
@@ -254,6 +252,7 @@ public class JSONArrayTest {
 	}
 	
 	//put a double into JSONArray and the retrieve using getDouble
+	//auto generated inputs
 	@Test
 	public void putAndGetDoubleTest() {
 		Random rand = new Random();
@@ -268,6 +267,7 @@ public class JSONArrayTest {
 	
 	/*Put the String representation of a double value
 	into a JSONArray and then retrieve the value using getDouble*/
+	//auto generated inputs
 	@Test
 	public void putAndGetDoubleTest_usingString() {
 		Random rand = new Random();
@@ -282,6 +282,7 @@ public class JSONArrayTest {
 	
 	/*Puts a random string into a JSONArray and then attempts to 
 	 * retrieve the string as a double. Should throw JSONException*/
+	//auto generated inputs
 	@Test(expected = JSONException.class) 
 	public void putAndGetDoubleTest_wrongFormat() {
 		Random rand = new Random();
@@ -297,6 +298,7 @@ public class JSONArrayTest {
 
 	/*test the JSONArray to list function produces a list including
 	 elements that were added to the JSONArray*/
+	//auto generated inputs
 	@Test
 	public void toListTest() {
 		//test x random inputs
@@ -333,8 +335,7 @@ public class JSONArrayTest {
 	 * can push objects to different indexes by proving an initial
 	 * int argument.
 	 */
-	
-	//Test uses auto generated inputs.
+	//auto generated inputs.
 	@Test
 	public void toStringTestSingleElementLists() {
 		//test 10 random inputs
@@ -359,6 +360,7 @@ public class JSONArrayTest {
 	* NEED TO FINISH THIS FUNCTION SO THAT IT TRIES MORE
 	* RANDOM STRINGS
 	*/
+	//auto generated inputs
 	@Test
 	public void toStringLongerLists() {
 		JSONFormatStringGenerator generator = new JSONFormatStringGenerator();
@@ -375,10 +377,4 @@ public class JSONArrayTest {
 		
 		assertTrue(jArray.toString().equals(testString));
 	}
-	
-	
-
-	//test length
-	
-	
 }
