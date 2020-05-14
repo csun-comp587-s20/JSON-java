@@ -1,9 +1,6 @@
 package com.test.JSON_java;
 
 import static org.junit.Assert.*;
-
-import java.util.Random;
-
 import org.junit.Test;
 
 public class JSONTokenerTest {
@@ -20,13 +17,18 @@ public class JSONTokenerTest {
 	}
 	
 	@Test
-	public void JSONTokener_moreWithCharInput() {
-	    String s1 = "[I am the machine]";
+	public void testJSONTokener_Next2() {
+		//using json syntax with quotes within brackets.
+	    String s1 = "[\"I am the machine\"]";
 		JSONTokener jt = new JSONTokener(s1);
-		assertEquals('[',jt.next('['));	
+		for(int i = 0; i < s1.length(); i++) {
+			assertEquals(s1.charAt(i), jt.next());
+		}
+		//return 0 once past end of string
+		assertEquals(0, jt.next());
 	}
 	
-	//the following test uses auto generated inputs
+	//auto generated inputs
 	@Test
 	public void testJSONTokenerNext_AutoGenInputs() {
 		//test 10 random inputs
@@ -43,6 +45,13 @@ public class JSONTokenerTest {
 			//return 0 once past end of string
 			assertEquals(0, jt.next());
 		}
+	}
+	
+	@Test
+	public void JSONTokener_moreTest_WithCharInput() {
+	    String s1 = "[I am the machine]";
+		JSONTokener jt = new JSONTokener(s1);
+		assertEquals('[',jt.next('['));	
 	}
 	
 	/*
@@ -98,7 +107,6 @@ public class JSONTokenerTest {
 	
 	@Test
 	public void dehexchar_testNegativeInput() {
-		Random rand = new Random();
 		int negativeInput = -1, REDIX = 16;
 		char c= Character.forDigit(negativeInput,REDIX);    
 		assertEquals(-1,JSONTokener.dehexchar(c));
@@ -133,5 +141,55 @@ public class JSONTokenerTest {
 		JSONTokener jt = new JSONTokener(s1);	
 		assertEquals('t', jt.skipTo('t'));
 	}
-
+	
+	@Test
+	public void nextTest_exhaustiveInputs() {
+		String s1 = "[I am the machine]";
+		for (int i = 1; i < s1.length(); i++) {
+			JSONTokener jt = new JSONTokener(s1);
+			int beginIndex = 0, endIndex = i;
+			assertEquals(s1.substring(beginIndex, endIndex), jt.next(endIndex));
+		}
+	}
+	
+	//auto generated inputs
+	@Test
+	public void nextTest_exhaustiveInputs_generatedStrings() {
+		JSONFormatStringGenerator generator = new JSONFormatStringGenerator();
+		int numTests = 10;
+		for (int t = 0; t < numTests; t++) {
+			int maxLength = 50;
+			//generate random json string with max length
+			generator.genRandomLengthStrings(maxLength);
+			String randomJSONString = generator.getJSONFormatString();
+			for (int i = 1; i < randomJSONString.length(); i++) {
+				JSONTokener jt = new JSONTokener(randomJSONString);
+				int beginIndex = 0, endIndex = i;
+				assertEquals(randomJSONString.substring(beginIndex, endIndex), jt.next(endIndex));
+			}
+		}
+	}	
+	
+	//auto generated input
+	@Test(expected = JSONException.class)
+	public void nextTest_boundsError() {
+		JSONFormatStringGenerator generator = new JSONFormatStringGenerator();
+		int maxLength = 50;
+		generator.genRandomLengthStrings(maxLength);
+		String randomJSONString = generator.getJSONFormatString();
+		JSONTokener jt = new JSONTokener(randomJSONString);
+		int endIndex = randomJSONString.length() + 1;
+		jt.next(endIndex);
+	}
+	
+	//auto generated input
+	@Test
+	public void next_length0 () {
+		JSONFormatStringGenerator generator = new JSONFormatStringGenerator();
+		int maxLength = 50;
+		generator.genRandomLengthStrings(maxLength);
+		String randomJSONString = generator.getJSONFormatString();
+		JSONTokener jt = new JSONTokener(randomJSONString);
+		assertEquals("", jt.next(0));
+	}
 }

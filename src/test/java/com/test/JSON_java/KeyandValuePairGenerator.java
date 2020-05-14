@@ -1,14 +1,12 @@
 package com.test.JSON_java;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 /*this class can be useful in getting coverage for all of the put function that take
  * different types as inputs.
  */
 
-public class KeyandValuePairGenerator<E> {
+public class KeyandValuePairGenerator {
 
 	//Keys are always strings
 	private String key;
@@ -16,8 +14,6 @@ public class KeyandValuePairGenerator<E> {
 	//Values can be of the following types:
 	//boolean, collection, map, double, int, float, long, object
 	private boolean boolValue;
-	private List<E> listValue;
-	private HashMap<E,E> hashmapValue;
 	private double doubleValue;
 	private int intValue;
 	private float floatValue;
@@ -28,39 +24,54 @@ public class KeyandValuePairGenerator<E> {
 	KeyandValuePairGenerator() {
 		key = "";
 		boolValue = false;
-		//private List<E> listValue;
-		//private HashMap<E,E> hashmapValue;
 		doubleValue = 0.0;
 		intValue = 0;
 		floatValue = 0;
 		longValue = 0;
-		//private Object objectValue;
+		Object objectValue;
 		stringValue = "";
 	}
 	
-	//generate functions
-	public void generateKey(int length) {
+	private String generateRandomString(int length) {
 		Random rnd = new Random();
 		 char c;
+		 String s1 = "";
 		 for (int i = 0; i < length; i++) {
 			 c = (char) (rnd.nextInt(26) + 'a');
-			 key += c;
+			 s1 += c;
 		 }
+		 return s1;
 	}
 	
-	public void generateStringValue(int length) {
-		Random rnd = new Random();
-		 char c;
-		 for (int i = 0; i < length; i++) {
-			 c = (char) (rnd.nextInt(26) + 'a');
-			 key += c;
-		 }
+	//public generate functions
+	public void generateNewKey(int length) {
+		key = generateRandomString(length);
 	}
 	
-	//is this necessary or should I just use random in the specific test class?
-	public void generateBoolValue() {
+	public void generateNewStringValue(int length) {
+		stringValue = generateRandomString(length);
+	}
+	
+	public void generateNewBoolValue() {
 		Random rnd = new Random();
 		boolValue = rnd.nextBoolean();
+	}
+	
+	public void generateNewIntValue() {
+		int floor = 0, ceiling = 100;
+		Random rnd = new Random();
+		intValue = rnd.nextInt(ceiling - floor) + floor;
+	}
+	
+	public void generateNewIntValue(int ceiling) {
+		int floor = 0;
+		Random rnd = new Random();
+		intValue = rnd.nextInt(ceiling - floor) + floor;
+	}
+	
+	public void generateNewIntValue(int floor, int ceiling) {
+		Random rnd = new Random();
+		intValue = rnd.nextInt(ceiling - floor) + floor;
 	}
 	
 	//getter functions
@@ -74,5 +85,9 @@ public class KeyandValuePairGenerator<E> {
 	
 	public boolean getBoolValue() {
 		return boolValue;
+	}
+	
+	public int getIntValue() {
+		return intValue;
 	}
 }

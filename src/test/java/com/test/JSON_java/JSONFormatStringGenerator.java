@@ -54,5 +54,4 @@ public class JSONFormatStringGenerator {
 	public String getJSONFormatString() {
 		return JSONFormatString;
 	}
-
 }
