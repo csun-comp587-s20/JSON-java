@@ -149,7 +149,7 @@ public class JSONTokener {
      * @return true if at the end of the file and we didn't step back
      */
     public boolean end() {
-<span class="nc bnc" id="L152" title="All 4 branches missed.">        return this.eof &amp;&amp; !this.usePrevious;</span>
+<span class="pc bpc" id="L152" title="1 of 4 branches missed.">        return this.eof &amp;&amp; !this.usePrevious;</span>
     }
 
 
@@ -264,21 +264,21 @@ public class JSONTokener {
      *   n characters remaining in the source string.
      */
     public String next(int n) throws JSONException {
-<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (n == 0) {</span>
-<span class="nc" id="L268">            return &quot;&quot;;</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc" id="L268">            return &quot;&quot;;</span>
         }
 
-<span class="nc" id="L271">        char[] chars = new char[n];</span>
-<span class="nc" id="L272">        int pos = 0;</span>
+<span class="fc" id="L271">        char[] chars = new char[n];</span>
+<span class="fc" id="L272">        int pos = 0;</span>
 
-<span class="nc bnc" id="L274" title="All 2 branches missed.">        while (pos &lt; n) {</span>
-<span class="nc" id="L275">            chars[pos] = this.next();</span>
-<span class="nc bnc" id="L276" title="All 2 branches missed.">            if (this.end()) {</span>
-<span class="nc" id="L277">                throw this.syntaxError(&quot;Substring bounds error&quot;);</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">        while (pos &lt; n) {</span>
+<span class="fc" id="L275">            chars[pos] = this.next();</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">            if (this.end()) {</span>
+<span class="fc" id="L277">                throw this.syntaxError(&quot;Substring bounds error&quot;);</span>
             }
-<span class="nc" id="L279">            pos += 1;</span>
+<span class="fc" id="L279">            pos += 1;</span>
         }
-<span class="nc" id="L281">        return new String(chars);</span>
+<span class="fc" id="L281">        return new String(chars);</span>
     }
 
 
@@ -504,7 +504,7 @@ public class JSONTokener {
      * @return  A JSONException object, suitable for throwing
      */
     public JSONException syntaxError(String message) {
-<span class="nc" id="L507">        return new JSONException(message + this.toString());</span>
+<span class="fc" id="L507">        return new JSONException(message + this.toString());</span>
     }
 
     /**
@@ -525,7 +525,7 @@ public class JSONTokener {
      */
     @Override
     public String toString() {
-<span class="nc" id="L528">        return &quot; at &quot; + this.index + &quot; [character &quot; + this.character + &quot; line &quot; +</span>
+<span class="fc" id="L528">        return &quot; at &quot; + this.index + &quot; [character &quot; + this.character + &quot; line &quot; +</span>
                 this.line + &quot;]&quot;;
     }
 }

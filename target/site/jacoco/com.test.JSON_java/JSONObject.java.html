@@ -719,14 +719,14 @@ public class JSONObject {
      *             object and cannot be converted to a number.
      */
     public Number getNumber(String key) throws JSONException {
-<span class="nc" id="L722">        Object object = this.get(key);</span>
+<span class="fc" id="L722">        Object object = this.get(key);</span>
         try {
-<span class="nc bnc" id="L724" title="All 2 branches missed.">            if (object instanceof Number) {</span>
-<span class="nc" id="L725">                return (Number)object;</span>
+<span class="fc bfc" id="L724" title="All 2 branches covered.">            if (object instanceof Number) {</span>
+<span class="fc" id="L725">                return (Number)object;</span>
             }
-<span class="nc" id="L727">            return stringToNumber(object.toString());</span>
-<span class="nc" id="L728">        } catch (Exception e) {</span>
-<span class="nc" id="L729">            throw wrongValueFormatException(key, &quot;number&quot;, e);</span>
+<span class="fc" id="L727">            return stringToNumber(object.toString());</span>
+<span class="fc" id="L728">        } catch (Exception e) {</span>
+<span class="fc" id="L729">            throw wrongValueFormatException(key, &quot;number&quot;, e);</span>
         }
     }
 
@@ -2105,10 +2105,10 @@ public class JSONObject {
      *      caller should catch this and wrap it in a {@link JSONException} if applicable.
      */
     protected static Number stringToNumber(final String val) throws NumberFormatException {
-<span class="nc" id="L2108">        char initial = val.charAt(0);</span>
-<span class="nc bnc" id="L2109" title="All 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
+<span class="fc" id="L2108">        char initial = val.charAt(0);</span>
+<span class="pc bpc" id="L2109" title="2 of 6 branches missed.">        if ((initial &gt;= '0' &amp;&amp; initial &lt;= '9') || initial == '-') {</span>
             // decimal representation
-<span class="nc bnc" id="L2111" title="All 2 branches missed.">            if (isDecimalNotation(val)) {</span>
+<span class="pc bpc" id="L2111" title="1 of 2 branches missed.">            if (isDecimalNotation(val)) {</span>
                 // quick dirty way to see if we need a BigDecimal instead of a Double
                 // this only handles some cases of overflow or underflow
 <span class="nc bnc" id="L2114" title="All 2 branches missed.">                if (val.length()&gt;14) {</span>
@@ -2146,16 +2146,16 @@ public class JSONObject {
             // only what they need. i.e. Less runtime overhead if the value is
             // long lived. Which is the better tradeoff? This is closer to what's
             // in stringToValue.
-<span class="nc" id="L2149">            BigInteger bi = new BigInteger(val);</span>
-<span class="nc bnc" id="L2150" title="All 2 branches missed.">            if(bi.bitLength()&lt;=31){</span>
-<span class="nc" id="L2151">                return Integer.valueOf(bi.intValue());</span>
+<span class="fc" id="L2149">            BigInteger bi = new BigInteger(val);</span>
+<span class="pc bpc" id="L2150" title="1 of 2 branches missed.">            if(bi.bitLength()&lt;=31){</span>
+<span class="fc" id="L2151">                return Integer.valueOf(bi.intValue());</span>
             }
 <span class="nc bnc" id="L2153" title="All 2 branches missed.">            if(bi.bitLength()&lt;=63){</span>
 <span class="nc" id="L2154">                return Long.valueOf(bi.longValue());</span>
             }
 <span class="nc" id="L2156">            return bi;</span>
         }
-<span class="nc" id="L2158">        throw new NumberFormatException(&quot;val [&quot;+val+&quot;] is not a valid number.&quot;);</span>
+<span class="fc" id="L2158">        throw new NumberFormatException(&quot;val [&quot;+val+&quot;] is not a valid number.&quot;);</span>
     }
 
     /**
@@ -2253,14 +2253,14 @@ public class JSONObject {
      *             If any of the values are non-finite numbers.
      */
     public JSONArray toJSONArray(JSONArray names) throws JSONException {
-<span class="nc bnc" id="L2256" title="All 4 branches missed.">        if (names == null || names.isEmpty()) {</span>
+<span class="pc bpc" id="L2256" title="2 of 4 branches missed.">        if (names == null || names.isEmpty()) {</span>
 <span class="nc" id="L2257">            return null;</span>
         }
-<span class="nc" id="L2259">        JSONArray ja = new JSONArray();</span>
-<span class="nc bnc" id="L2260" title="All 2 branches missed.">        for (int i = 0; i &lt; names.length(); i += 1) {</span>
-<span class="nc" id="L2261">            ja.put(this.opt(names.getString(i)));</span>
+<span class="fc" id="L2259">        JSONArray ja = new JSONArray();</span>
+<span class="fc bfc" id="L2260" title="All 2 branches covered.">        for (int i = 0; i &lt; names.length(); i += 1) {</span>
+<span class="fc" id="L2261">            ja.put(this.opt(names.getString(i)));</span>
         }
-<span class="nc" id="L2263">        return ja;</span>
+<span class="fc" id="L2263">        return ja;</span>
     }
 
     /**
@@ -2558,21 +2558,21 @@ public class JSONObject {
      * @return a java.util.Map containing the entries of this object
      */
     public Map&lt;String, Object&gt; toMap() {
-<span class="nc" id="L2561">        Map&lt;String, Object&gt; results = new HashMap&lt;String, Object&gt;();</span>
-<span class="nc bnc" id="L2562" title="All 2 branches missed.">        for (Entry&lt;String, Object&gt; entry : this.entrySet()) {</span>
+<span class="fc" id="L2561">        Map&lt;String, Object&gt; results = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc bfc" id="L2562" title="All 2 branches covered.">        for (Entry&lt;String, Object&gt; entry : this.entrySet()) {</span>
             Object value;
-<span class="nc bnc" id="L2564" title="All 4 branches missed.">            if (entry.getValue() == null || NULL.equals(entry.getValue())) {</span>
+<span class="pc bpc" id="L2564" title="2 of 4 branches missed.">            if (entry.getValue() == null || NULL.equals(entry.getValue())) {</span>
 <span class="nc" id="L2565">                value = null;</span>
-<span class="nc bnc" id="L2566" title="All 2 branches missed.">            } else if (entry.getValue() instanceof JSONObject) {</span>
+<span class="pc bpc" id="L2566" title="1 of 2 branches missed.">            } else if (entry.getValue() instanceof JSONObject) {</span>
 <span class="nc" id="L2567">                value = ((JSONObject) entry.getValue()).toMap();</span>
-<span class="nc bnc" id="L2568" title="All 2 branches missed.">            } else if (entry.getValue() instanceof JSONArray) {</span>
+<span class="pc bpc" id="L2568" title="1 of 2 branches missed.">            } else if (entry.getValue() instanceof JSONArray) {</span>
 <span class="nc" id="L2569">                value = ((JSONArray) entry.getValue()).toList();</span>
             } else {
-<span class="nc" id="L2571">                value = entry.getValue();</span>
+<span class="fc" id="L2571">                value = entry.getValue();</span>
             }
-<span class="nc" id="L2573">            results.put(entry.getKey(), value);</span>
-<span class="nc" id="L2574">        }</span>
-<span class="nc" id="L2575">        return results;</span>
+<span class="fc" id="L2573">            results.put(entry.getKey(), value);</span>
+<span class="fc" id="L2574">        }</span>
+<span class="fc" id="L2575">        return results;</span>
     }
     
     /**
@@ -2586,8 +2586,8 @@ public class JSONObject {
             String key,
             String valueType,
             Throwable cause) {
-<span class="nc" id="L2589">        return new JSONException(</span>
-<span class="nc" id="L2590">                &quot;JSONObject[&quot; + quote(key) + &quot;] is not a &quot; + valueType + &quot;.&quot;</span>
+<span class="fc" id="L2589">        return new JSONException(</span>
+<span class="fc" id="L2590">                &quot;JSONObject[&quot; + quote(key) + &quot;] is not a &quot; + valueType + &quot;.&quot;</span>
                 , cause);
     }
     

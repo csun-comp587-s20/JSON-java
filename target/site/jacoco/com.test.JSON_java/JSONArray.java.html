@@ -474,9 +474,9 @@ public class JSONArray implements Iterable&lt;Object&gt; {
      *             If there is no string value for the index.
      */
     public String getString(int index) throws JSONException {
-<span class="nc" id="L477">        Object object = this.get(index);</span>
-<span class="nc bnc" id="L478" title="All 2 branches missed.">        if (object instanceof String) {</span>
-<span class="nc" id="L479">            return (String) object;</span>
+<span class="fc" id="L477">        Object object = this.get(index);</span>
+<span class="pc bpc" id="L478" title="1 of 2 branches missed.">        if (object instanceof String) {</span>
+<span class="fc" id="L479">            return (String) object;</span>
         }
 <span class="nc" id="L481">        throw wrongValueFormatException(index, &quot;String&quot;, null);</span>
     }
@@ -1482,7 +1482,7 @@ public class JSONArray implements Iterable&lt;Object&gt; {
      * @return true if JSONArray is empty, otherwise false.
      */
     public boolean isEmpty() {
-<span class="nc" id="L1485">        return this.myArrayList.isEmpty();</span>
+<span class="fc" id="L1485">        return this.myArrayList.isEmpty();</span>
     }
     
     /**
