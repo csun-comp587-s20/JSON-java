@@ -1,4 +1,4 @@
-# JSON-java
+# JSON-java -- Chase Gould
 
 My JSON-java testing project utilizes Maven and JUnit.
 
